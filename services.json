@@ -1,11 +1,12 @@
 [
     {
-        "name": "Twitter",
+        "name": "twitter",
+        "specProvider": "openapi",
         "base": "api.twitter.com",
         "auth": [
-            "apiKey",
-            "apiSecret",
-            "bearerToken"
+            "twitter.apiKey",
+            "twitter.apiSecret",
+            "twitter.bearerToken"
         ],
         "paths": [
             {

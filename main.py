@@ -1,8 +1,10 @@
-from subdivision import subdivision
-from ai_step import ai_step
-from io_step import io_step
-import sec
 import openai
+
+import sec
+from ai_step import ai_step
+from api_step import api_step
+from io_step import io_step
+from subdivision import subdivision
 
 openai.api_key = sec.OPENAI_API_KEY
 openai.organization = sec.OPENAI_ORGANIZATION_ID
@@ -21,7 +23,8 @@ for step in steps:
     count += 1
     print(f'Step {count} of {total_steps}: {step}')
     if '(API)' in step:
-        print('API call')
+        print('[...]')
+        api_step(user_input, step, context_data)
     elif '(IO)' in step:
         print('[...]')
         context_data = io_step(step)

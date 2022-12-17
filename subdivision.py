@@ -67,14 +67,18 @@ def subdivision(user_input):
     # Grab the steps from the completion.
     # The steps are comma-seperated, and in between the characters '[' and ']'.
     result = completion.choices[0]
+    result = result.text
 
     try:
-        steps = result.text.split('[')[1].split(']')[0]
-        if ',' in steps:
-            steps = steps.split(',')
-        steps = [step.strip() for step in steps]
+        if '[' in result and ']' in result:
+            steps = result.split('[')[1].split(']')[0]
+            if ',' in steps:
+                steps = steps.split(',')
+            steps = [step.strip() for step in steps]
+        else:
+            steps = [result]
     except Exception:
         steps = []
-        raise Exception("Invalid steps. Completion: \"" + result.text + "\"")
+        raise Exception("Invalid steps. Completion: \"" + result + "\"")
 
     return steps
