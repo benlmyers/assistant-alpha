@@ -1,0 +1,17 @@
+[
+    {
+        "name": "Twitter",
+        "base": "api.twitter.com",
+        "auth": [
+            "apiKey",
+            "apiSecret",
+            "bearerToken"
+        ],
+        "paths": [
+            {
+                "endpoint": "/2/tweets",
+                "summary": "Returns a variety of information about the Tweet specified by the requested ID or list of IDs."
+            }
+        ]
+    }
+]

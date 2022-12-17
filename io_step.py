@@ -1,11 +1,14 @@
 import datetime
 import subprocess
+
 from openai import Completion
+
+from models import ADA
 
 
 def io_step(step):
 
-    model = "text-ada-001"
+    model = ADA
     max_tokens = 128
 
     prompt = f"""

@@ -1,9 +1,11 @@
 from openai.api_resources.completion import Completion
 
+from models import DAVINCI
+
 
 def ai_step(user_input, step, context_data):
 
-    model = "text-davinci-003"
+    model = DAVINCI
     max_tokens = 256
 
     prompt = f"""
