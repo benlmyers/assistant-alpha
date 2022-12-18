@@ -1,6 +1,6 @@
 # PROJECT GITIGNORE
 
-sec.py
+/sec.py
 api_secrets.json
 
 # PYTHON TEMPLATE GITIGNORE
