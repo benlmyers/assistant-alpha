@@ -9,7 +9,7 @@ from models import BABBAGE
 def io_step(step):
 
     model = BABBAGE
-    max_tokens = 128
+    max_tokens = 8
 
     prompt = f"""
 Classify the input/output items into one of the following categories:

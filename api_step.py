@@ -1,11 +1,14 @@
 import json
-from BasicEndpoint import BasicEndpoint
 import itertools as IT
 
+from BasicEndpoint import BasicEndpoint
 from openai.api_resources.completion import Completion
 
+from prompts.get_service import get_service_prompt
+from prompts.get_endpoint import get_endpoint_prompt
+
+from models import ADA
 from models import BABBAGE
-from models import DAVINCI
 
 
 def api_step(user_input, step, context_data):
@@ -18,28 +21,13 @@ def api_step(user_input, step, context_data):
 
 
 def get_service(user_input, step):
-
-    model = BABBAGE
+    model = ADA
     max_tokens = 128
 
     available_services = get_available_services()
 
-    prompt = f"""The following is a list of services available to use:
-{available_services}
+    prompt = get_service_prompt(user_input, step, available_services)
 
-Now the following is a step for a Task you (the Assistant) could complete in a single API call.
-
-Task: Get a random Tweet
-Step to Focus on: Fetch a random Tweet
-
-The above service that should be used for this step is:
-twitter
-
-Task: {user_input}
-Step to Focus on: {step}
-
-The above service that should be used for this step is:
-"""
     # Get completion
     completion = Completion.create(
         model=model,
@@ -48,19 +36,15 @@ The above service that should be used for this step is:
         temperature=0
     )
 
-    result = completion.choices[0].text
-
-    if not result in available_services:
-        print('[x] Service not found, using default service: twitter')
-        result = 'twitter'
-
-    return result
+    return completion.choices[0].text
 
 
 def get_endpoint(user_input, step, service):
 
+    show_prompt = False
+
     model = BABBAGE
-    max_tokens = 128
+    max_tokens = 32
 
     service_f = open('services.json')
     data = json.loads(service_f.read())
@@ -70,15 +54,21 @@ def get_endpoint(user_input, step, service):
 
     for service_data in data:
         if service_data['name'] == service:
-            specification_source = service_data['specProvider'].strip()
+            specification_source = service_data['specProvider']
 
     print('> Reading specification from ' + specification_source)
 
-    spec_f = open('specifications/' + specification_source +
-                  '/' + service + '.json')
+    spec_file_name = 'specifications/' + \
+        specification_source + '/' + service + '.json'
+
+    spec_f = open(spec_file_name)
     data = json.loads(spec_f.read())
 
-    basic_endpoints = get_basic_endpoints_openapi(data)
+    if specification_source == "openapi":
+        basic_endpoints = get_basic_endpoints_openapi(data)
+    else:
+        print('Error: Specification source not supported')
+
     spec_f.close()
 
     print('> Choosing the best endpoint to use')
@@ -86,35 +76,25 @@ def get_endpoint(user_input, step, service):
     basic_endpoints_str = ''
 
     for endpoint in basic_endpoints:
-        basic_endpoints_str = basic_endpoints_str + f"""
+        endpoint_str = endpoint.path
+        for method in endpoint.methods:
+            endpoint_str = endpoint_str + '\n' + method
+        basic_endpoints_str = basic_endpoints_str + '\n' + endpoint_str + '\n'
 
-Path: {endpoint.path} ({endpoint.method})
-Summary: {endpoint.summary}
+    prompt = get_endpoint_prompt(basic_endpoints_str, user_input, step)
 
-        """
-
-    prompt = f"""
-The following is a step for a Task you (the Assistant) could complete in a single API call.
-
-Task: {user_input}
-Step to Focus on: {step}
-
-And the following is a list of API endpoint paths, their methods and a quick summary about each of them:
-
-{basic_endpoints_str}
-
-And the following is one path + method, chosen from the above list, that should be used for this step.
-Path:
-"""
+    if show_prompt:
+        print('> Prompt: \n\n' + prompt + '\n')
 
     completion = Completion.create(
         model=model,
         prompt=prompt,
         max_tokens=max_tokens,
-        temperature=0
+        temperature=0,
+        stop='\n\n'
     )
 
-    endpoint_result = completion.choices[0].text.strip()
+    endpoint_result = completion.choices[0].text
 
     print('> Found endpoint: ' + endpoint_result)
     return endpoint_result
@@ -140,12 +120,13 @@ def get_basic_endpoints_openapi(data):
     basic_endpoints = []
 
     for path, path_data in data['paths'].items():
+        endpoint = BasicEndpoint()
+        endpoint.path = path
+        endpoint.methods = []
         for method, method_data in path_data.items():
-            endpoint = BasicEndpoint()
-            endpoint.path = path
-            endpoint.method = method
-            endpoint.summary = path_data[method]['summary']
-            print('>> Found endpoint: ' + endpoint.path +
-                  ' (' + endpoint.method + ')')
+            method_str = '(' + method.upper() + ') ' + \
+                method_data['summary']
+            endpoint.methods.append(method_str)
+        basic_endpoints.append(endpoint)
 
     return basic_endpoints
