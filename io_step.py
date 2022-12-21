@@ -3,12 +3,12 @@ import subprocess
 
 from openai import Completion
 
-from models import ADA
+from models import BABBAGE
 
 
 def io_step(step):
 
-    model = ADA
+    model = BABBAGE
     max_tokens = 128
 
     prompt = f"""
