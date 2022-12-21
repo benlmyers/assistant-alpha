@@ -9,7 +9,7 @@ Task: DM Lionel Messi a message
 Step: Send the message to the specified user (API)
 
 Chosen from the above endpoints list, here's the path and method to use, summary omitted:
-/2/dm_conversations/with/{{participant_id}}/messages (POST)
+POST /2/dm_conversations/with/{{participant_id}}/messages
 
 Task: {user_input}
 Step: {step}
