@@ -25,8 +25,8 @@ Category: Geolocation
 Get a paragraph input
 Category: Text Input
 
-Get what time it is now
-Category: Time
+Search Tweets
+Category: Text Input
 
 {step}
 Category:"""
