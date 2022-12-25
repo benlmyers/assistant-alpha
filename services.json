@@ -2,17 +2,10 @@
     {
         "name": "twitter",
         "specProvider": "openapi",
-        "base": "api.twitter.com",
         "auth": [
             "twitter.apiKey",
             "twitter.apiSecret",
             "twitter.bearerToken"
-        ],
-        "paths": [
-            {
-                "endpoint": "/2/tweets",
-                "summary": "Returns a variety of information about the Tweet specified by the requested ID or list of IDs."
-            }
         ]
     }
 ]

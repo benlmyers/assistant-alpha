@@ -1,6 +1,6 @@
 from openai import Completion
 
-import Endpoint
+from Endpoint import Endpoint
 from models import DAVINCI
 from prompts.get_endpoint import get_endpoint_prompt
 
@@ -30,8 +30,8 @@ def get_operation(user_input, step, spec_source, spec_data):
     # This string will be fed into the prompt for the AI.
     for endpoint in endpoints:
         endpoint_str = endpoint.path
-        for method in endpoint.methods:
-            endpoint_str = endpoint_str + '\n' + method
+        for operation in endpoint.operations:
+            endpoint_str = endpoint_str + '\n' + operation
         endpoints_str = endpoints_str + '\n' + endpoint_str + '\n'
 
     # Get an AI prompt asking to choose an endpoint and method to use.

@@ -28,6 +28,9 @@ Category: Text Input
 Search Tweets
 Category: Text Input
 
+Get the user's friend's Instagarm handle
+Category: Text Input
+
 {step}
 Category:"""
 

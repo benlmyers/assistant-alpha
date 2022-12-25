@@ -6,20 +6,20 @@ Task: Tweet something for me
 Step to Focus on: Post the user's message on Twitter (API)
 
 The following is a list of services available to use:
-[Twitter, Gmail, Google Calendar, Uber]
+[twitter, gmail, google calendar, uber]
 
 The service that should be used for this step is:
-Twitter
+twitter
 
 
 Task: Check the prices of Ubers from here to LAX
 Step to Focus on: Check the prices of Ubers from the user's current location to their destination (API)
 
 The following is a list of services available to use:
-[Twitter, Uber, Gmail, Google Sheets]
+[twitter, uber, gmail, google sheets]
 
 The service that should be used for this step is:
-Uber
+uber
 
 
 Task: {user_input}
