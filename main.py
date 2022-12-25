@@ -1,9 +1,9 @@
 import openai
 
 import sec
-from ai_step import ai_step
-from api_step import api_step
-from io_step import io_step
+from step.ai_step import ai_step
+from step.api_step import api_step
+from step.io_step import io_step
 from subdivision import subdivision
 
 openai.api_key = sec.OPENAI_API_KEY
