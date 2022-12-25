@@ -8,7 +8,7 @@ Step to Focus on: Post the user's message on Twitter (API)
 The following is a list of services available to use:
 [twitter, gmail, google calendar, uber]
 
-The service that should be used for this step is:
+Service to use for this step:
 twitter
 
 
@@ -18,7 +18,7 @@ Step to Focus on: Check the prices of Ubers from the user's current location to 
 The following is a list of services available to use:
 [twitter, uber, gmail, google sheets]
 
-The service that should be used for this step is:
+Service to use for this step:
 uber
 
 
@@ -28,5 +28,5 @@ Step to Focus on: {step}
 The following is a list of services available to use:
 {available_services}
 
-The service that should be used for this step is:
+Service to use for this step:
 """

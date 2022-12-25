@@ -29,6 +29,44 @@ def get_spec(service):
     spec_f = open(spec_file_name)
     data = json.loads(spec_f.read())
 
+    data = remove_component_references_openapi(data, data)
+
+    print(data)
+
     spec_f.close()
 
     return specification_source, data
+
+
+def remove_component_references_openapi(orig_data, data):
+
+    # Remove all nested objects with key "$ref"
+    # For instance, see specifications/openapi/twitter.json
+    if isinstance(data, dict):
+        for key in list(data.keys()):
+            if key == '$ref':
+                data[key] = get_component_openapi(orig_data, data[key])
+            else:
+                remove_component_references_openapi(orig_data, data[key])
+    elif isinstance(data, list):
+        for index in range(len(data)):
+            remove_component_references_openapi(orig_data, data[index])
+
+    return data
+
+
+def get_component_openapi(data, path):
+
+    path = path.split('/')
+
+    if path[0] != '#':
+        return {}
+
+    path.pop(0)
+
+    data_slice = data
+
+    for key in path:
+        data_slice = data_slice[key]
+
+    return data_slice
