@@ -1,4 +1,5 @@
 import json
+from authlib.integrations.requests_client import OAuth2Session
 
 import requests
 from flask import Flask, request
@@ -13,30 +14,16 @@ def authorization_code(flow_data, consumer_key, consumer_secret, scopes):
     authorization_url = flow_data['authorizationUrl']
     token_url = flow_data['tokenUrl']
 
+    scope = ' '.join(scopes)
+
     callback_uri = 'http://127.0.0.1:5000/oauth/callback'
 
-    authorization_redirect_url = authorization_url + '?response_type=code&client_id=' + \
-        consumer_key + '&redirect_uri=' + \
-        callback_uri + '&scope=' + '%20'.join(scopes)
+    client = OAuth2Session(consumer_key, consumer_secret,
+                           scope=scope, redirect_uri=callback_uri)
 
-    print("> Open this URL in your browser: " + authorization_redirect_url)
-    authorization_code = input('> Enter the code: ')
+    uri, state = client.create_authorization_url(authorization_url)
 
-    data = {
-        'grant_type': 'authorization_code',
-        'code': authorization_code,
-        'redirect_uri': callback_uri
-    }
-
-    print("> Requesting access token")
-
-    access_token_response = requests.post(
-        token_url, data=data, verify=False, allow_redirects=False, auth=(consumer_key, consumer_secret))
-
-    tokens = json.loads(access_token_response.text)
-    access_token = tokens['access_token']
-
-    return access_token
+    print("> Open this URL in your browser: " + uri)
 
 
 @app.route("/oauth/callback", methods=["GET"])
