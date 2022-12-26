@@ -1,5 +1,7 @@
 import json
 
+from api_handling.get_security import get_security
+
 
 def get_spec(service):
 
@@ -29,9 +31,8 @@ def get_spec(service):
     spec_f = open(spec_file_name)
     data = json.loads(spec_f.read())
 
-    data = remove_component_references_openapi(data, data)
-
-    print(data)
+    if specification_source == "opanpi":
+        data = remove_component_references_openapi(data, data)
 
     spec_f.close()
 
@@ -41,7 +42,6 @@ def get_spec(service):
 def remove_component_references_openapi(orig_data, data):
 
     # Remove all nested objects with key "$ref"
-    # For instance, see specifications/openapi/twitter.json
     if isinstance(data, dict):
         for key in list(data.keys()):
             if key == '$ref':

@@ -4,6 +4,7 @@ from api_handling.get_operation import get_operation
 from api_handling.get_parameters import get_parameters
 from api_handling.get_service import get_service
 from api_handling.get_spec import get_spec
+from api_handling.get_security import get_security
 from models import DAVINCI
 from prompts.get_request import get_request_prompt
 
@@ -34,6 +35,12 @@ def api_step(user_input, step, context_data):
 
     operation_data = spec_data['paths'][endpoint][method.lower()]
 
+    print('Getting parameters...')
+
     # Get the parameters data for the request.
     parameters_data = get_parameters(
         user_input, step, context_data, operation_data)
+
+    print('Getting authorization...')
+
+    access_code = get_security(operation_data, spec_data, service)
