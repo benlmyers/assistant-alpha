@@ -2,6 +2,7 @@ from openai.api_resources.completion import Completion
 
 from api_handling.get_operation import get_operation
 from api_handling.get_parameters import get_parameters
+from api_handling.get_body import get_body
 from api_handling.get_service import get_service
 from api_handling.get_spec import get_spec
 from api_handling.get_security import get_security
@@ -20,7 +21,7 @@ def api_step(user_input, step, context_data):
     # For example, for Twitter, spec_source = "openapi" and spec_data is the JSON data from specifications/openapi/twitter.json
     spec_source, spec_data = get_spec(service)
 
-    # Get the opeartion needed for the API request.
+    # Get the operation needed for the API request.
     # For example, "GET /2/compliance/jobs"
     operation = get_operation(
         user_input, step, spec_source, spec_data)
@@ -38,6 +39,13 @@ def api_step(user_input, step, context_data):
     # Get the parameters data for the request.
     parameters_data = get_parameters(
         user_input, step, context_data, operation_data)
+
+    if(method == 'post'):
+        print('Getting request body...')
+
+        # Get the parameters data for the request.
+        body_data = get_body(
+            user_input, step, context_data, operation_data)
 
     print('Getting authorization...')
 
