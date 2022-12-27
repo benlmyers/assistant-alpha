@@ -1,44 +1,56 @@
 import json
+import logging
+import os
+import signal
+import sys
+import time
+import webbrowser
 
 import requests
-from flask import Flask, request
+from authlib.integrations.requests_client import OAuth2Session
+from flask import Flask, redirect, request
 
-app = Flask(__name__)
 
+def authorization_code(flow_data, client_id, client_secret, scopes):
 
-def authorization_code(flow_data, consumer_key, consumer_secret, scopes):
+    app = Flask(__name__)
+
+    log = logging.getLogger('authlib')
+
+    log.addHandler(logging.StreamHandler(sys.stdout))
+    log.setLevel(logging.DEBUG)
 
     print('> Using Authorization Code flow')
 
     authorization_url = flow_data['authorizationUrl']
     token_url = flow_data['tokenUrl']
 
+    scope = ' '.join(scopes)
+
     callback_uri = 'http://127.0.0.1:5000/oauth/callback'
 
-    authorization_redirect_url = authorization_url + '?response_type=code&client_id=' + \
-        consumer_key + '&redirect_uri=' + \
-        callback_uri + '&scope=' + '%20'.join(scopes)
+    client = OAuth2Session(client_id, client_secret,
+                           scope=scope, redirect_uri='REDIRECT')
 
-    print("> Open this URL in your browser: " + authorization_redirect_url)
-    authorization_code = input('> Enter the code: ')
+    uri, state = client.create_authorization_url(
+        authorization_url)
 
-    data = {
-        'grant_type': 'authorization_code',
-        'code': authorization_code,
-        'redirect_uri': callback_uri
-    }
+    uri = uri.replace('+', '%20')
+    uri = uri.replace('REDIRECT', callback_uri)
+    uri = uri.replace(
+        uri[uri.find('state=') + 6:uri.find('&code_challenge')], 'state')
+    uri = uri + '&code_challenge=challenge&code_challenge_method=plain'
 
-    print("> Requesting access token")
+    @app.route("/")
+    def _():
+        return redirect(uri)
 
-    access_token_response = requests.post(
-        token_url, data=data, verify=False, allow_redirects=False, auth=(consumer_key, consumer_secret))
+    @app.route("/oauth/callback", methods=["GET"])
+    def __():
+        authorization_response = request.full_path
+        token = client.fetch_token(
+            token_url, authorization_response=authorization_response, client_secret=client_secret)
+        # os.kill(os.getpid(), signal.SIGINT)
+        return "Authorized. You can return to the Python app."
 
-    tokens = json.loads(access_token_response.text)
-    access_token = tokens['access_token']
-
-    return access_token
-
-
-@app.route("/oauth/callback", methods=["GET"])
-def callback():
-    print('Callback')
+    app.run()

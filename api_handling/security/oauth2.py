@@ -12,7 +12,7 @@ def oauth2(scheme_data, operation_data, service):
 
     print('> Getting consumer credentials')
 
-    consumer_key, consumer_secret = get_consumer_credentials(service)
+    client_id, client_secret = get_consumer_credentials(service)
 
     print('> Getting scopes')
 
@@ -26,11 +26,11 @@ def oauth2(scheme_data, operation_data, service):
 
     if flows_data['authorizationCode']:
         access_code = authorization_code(
-            flows_data['authorizationCode'], consumer_key, consumer_secret, scopes)
+            flows_data['authorizationCode'], client_id, client_secret, scopes)
 
-    print('> Found access code: ' + access_code)
+    #print('> Found access code: ' + access_code)
 
-    return access_code
+    # return access_code
 
 
 def get_consumer_credentials(service):
@@ -41,7 +41,7 @@ def get_consumer_credentials(service):
 
     f.close()
 
-    consumer_key = secrets[service]['consumerKey']
-    consumer_secret = secrets[service]['consumerSecret']
+    client_id = secrets[service]['clientId']
+    client_secret = secrets[service]['clientSecret']
 
-    return consumer_key, consumer_secret
+    return client_id, client_secret

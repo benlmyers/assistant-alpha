@@ -31,8 +31,6 @@ def api_step(user_input, step, context_data):
     # For example, "get"
     method = operation.split(' ')[0].strip().lower()
 
-    print('Forming a ' + method + ' request...')
-
     operation_data = spec_data['paths'][endpoint][method.lower()]
 
     print('Getting parameters...')
