@@ -23,11 +23,18 @@ def authorization_code(flow_data, client_id, client_secret, scopes):
 
     scope = ' '.join(scopes)
 
-    callback_uri = 'http://127.0.0.1:5000/oauth/callback'
+    #callback_uri = 'http://127.0.0.1:5000/oauth/callback'
+    callback_uri = 'https://www.example.com'
 
-    client = OAuth2Session(client_id, client_secret, scope=scope)
+    client = OAuth2Session('Yy1NUVA3RnFKVzFEWWRnZHlINkc6MTpjaQ', client_secret,
+                           scope=scope, redirect_uri='REDIRECT')
 
-    uri, state = client.create_authorization_url(authorization_url)
+    uri, state = client.create_authorization_url(
+        authorization_url)
+
+    uri = uri.replace('+', '%20')
+    uri = uri.replace('REDIRECT', callback_uri)
+    uri = uri + '&code_challenge=challenge&code_challenge_method=plain'
 
     print("> Open this URL in your browser: " + uri)
 
