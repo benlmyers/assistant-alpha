@@ -1,15 +1,19 @@
 import json
-from authlib.integrations.requests_client import OAuth2Session
+import logging
+import os
+import signal
+import sys
+import time
+import webbrowser
 
 import requests
-import logging
-import sys
-from flask import Flask, request
-
-app = Flask(__name__)
+from authlib.integrations.requests_client import OAuth2Session
+from flask import Flask, redirect, request
 
 
 def authorization_code(flow_data, client_id, client_secret, scopes):
+
+    app = Flask(__name__)
 
     log = logging.getLogger('authlib')
 
@@ -23,10 +27,9 @@ def authorization_code(flow_data, client_id, client_secret, scopes):
 
     scope = ' '.join(scopes)
 
-    #callback_uri = 'http://127.0.0.1:5000/oauth/callback'
-    callback_uri = 'https://www.example.com'
+    callback_uri = 'http://127.0.0.1:5000/oauth/callback'
 
-    client = OAuth2Session('Yy1NUVA3RnFKVzFEWWRnZHlINkc6MTpjaQ', client_secret,
+    client = OAuth2Session(client_id, client_secret,
                            scope=scope, redirect_uri='REDIRECT')
 
     uri, state = client.create_authorization_url(
@@ -34,11 +37,20 @@ def authorization_code(flow_data, client_id, client_secret, scopes):
 
     uri = uri.replace('+', '%20')
     uri = uri.replace('REDIRECT', callback_uri)
+    uri = uri.replace(
+        uri[uri.find('state=') + 6:uri.find('&code_challenge')], 'state')
     uri = uri + '&code_challenge=challenge&code_challenge_method=plain'
 
-    print("> Open this URL in your browser: " + uri)
+    @app.route("/")
+    def _():
+        return redirect(uri)
 
+    @app.route("/oauth/callback", methods=["GET"])
+    def __():
+        authorization_response = request.full_path
+        token = client.fetch_token(
+            token_url, authorization_response=authorization_response, client_secret=client_secret)
+        # os.kill(os.getpid(), signal.SIGINT)
+        return "Authorized. You can return to the Python app."
 
-@app.route("/oauth/callback", methods=["GET"])
-def callback():
-    print('Callback')
+    app.run()

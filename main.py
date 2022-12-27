@@ -19,6 +19,7 @@ total_steps = len(steps)
 
 context_data = '[No data]'
 
+
 for step in steps:
     count += 1
     print(f'Step {count} of {total_steps}: {step}')
