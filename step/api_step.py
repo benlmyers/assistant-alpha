@@ -21,32 +21,41 @@ def api_step(user_input, step, context_data):
     # For example, for Twitter, spec_source = "openapi" and spec_data is the JSON data from specifications/openapi/twitter.json
     spec_source, spec_data = get_spec(service)
 
-    # Get the operation needed for the API request.
-    # For example, "GET /2/compliance/jobs"
-    operation = get_operation(
+    # Get the operations needed for the API request.
+    # For example, "GET /2/compliance/jobs (goal)"
+    raw_operations = get_operations(
         user_input, step, spec_source, spec_data)
 
-    # Extract the endpoint and method from the above operation string.
-    # For example, "/2/compliance/jobs"
-    endpoint = operation.split(' ')[1].strip()
-    # For example, "get"
-    method = operation.split(' ')[0].strip().lower()
+    raw_operations = raw_operations.split('\n')
 
-    operation_data = spec_data['paths'][endpoint][method.lower()]
+    for raw_operation in raw_operations:
+        # Extract the endpoint and method from the above operation string.
+        # For example, "/2/compliance/jobs"
+        endpoint = raw_operation.split(' ')[1].strip()
+        # For example, "get"
+        method = raw_operation.split(' ')[0].strip().lower()
+        # The mini-summary to use with this specific operation.
+        substep = raw_operation.split(' ')[2].strip()
 
-    print('Getting parameters...')
+        # Step description (substep description)
+        detailed_step = step + ' ' + substep
 
-    # Get the parameters data for the request.
-    parameters_data = get_parameters(
-        user_input, step, context_data, operation_data)
+        operation_data = spec_data['paths'][endpoint][method.lower()]
 
-    if(method == 'post'):
-        print('Getting request body...')
+        print('Getting parameters...')
 
         # Get the parameters data for the request.
-        body_data = get_body(
-            user_input, step, context_data, operation_data)
+        parameters_data = get_parameters(
+            user_input, detailed_step, context_data, operation_data)
 
-    print('Getting authorization...')
+        if (method == 'post'):
+            print('Getting request body...')
 
-    access_code = get_security(operation_data, spec_data, service)
+            # Get the parameters data for the request.
+            body_data = get_body(
+                user_input, detailed_step, context_data, operation_data)
+
+        print('Getting authorization...')
+
+        authorization, auth_location = get_security(
+            operation_data, spec_data, service)

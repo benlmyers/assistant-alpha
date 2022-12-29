@@ -2,10 +2,10 @@ from openai import Completion
 
 from Endpoint import Endpoint
 from models import DAVINCI
-from prompts.get_endpoint import get_endpoint_prompt
+from prompts.get_operations import get_operations_prompt
 
 
-def get_operation(user_input, step, spec_source, spec_data):
+def get_operations(user_input, step, spec_source, spec_data):
 
     # Should the prompt that grabs the endpoint be printed to the console?
     # Set to True if you need to debug incorrect endpoints being grabbed.
@@ -35,7 +35,7 @@ def get_operation(user_input, step, spec_source, spec_data):
         endpoints_str = endpoints_str + '\n' + endpoint_str + '\n'
 
     # Get an AI prompt asking to choose an endpoint and method to use.
-    prompt = get_endpoint_prompt(endpoints_str, user_input, step)
+    prompt = get_operations_prompt(endpoints_str, user_input, step)
 
     if show_prompt:
         print('> Prompt: \n\n' + prompt + '\n')
@@ -49,10 +49,10 @@ def get_operation(user_input, step, spec_source, spec_data):
         stop='\n\n'
     )
 
-    operation_result = completion.choices[0].text
+    operations_result = completion.choices[0].text
 
-    print('> Found operation: ' + operation_result)
-    return operation_result
+    print('> Found operations: \n' + operations_result)
+    return operations_result
 
 
 def get_endpoints_openapi(data):
