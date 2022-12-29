@@ -6,6 +6,7 @@ from api_handling.get_body import get_body
 from api_handling.get_service import get_service
 from api_handling.get_spec import get_spec
 from api_handling.get_security import get_security
+from api_handling.send_request import send_request
 from models import DAVINCI
 from prompts.get_request import get_request_prompt
 
@@ -20,6 +21,8 @@ def api_step(user_input, step, context_data):
     # Get the specification source and data for the specific service.
     # For example, for Twitter, spec_source = "openapi" and spec_data is the JSON data from specifications/openapi/twitter.json
     spec_source, spec_data = get_spec(service)
+
+    server = get_server(spec_data)
 
     # Get the operation needed for the API request.
     # For example, "GET /2/compliance/jobs"
@@ -40,7 +43,7 @@ def api_step(user_input, step, context_data):
     parameters_data = get_parameters(
         user_input, step, context_data, operation_data)
 
-    if(method == 'post'):
+    if (method == 'post'):
         print('Getting request body...')
 
         # Get the parameters data for the request.
@@ -49,4 +52,9 @@ def api_step(user_input, step, context_data):
 
     print('Getting authorization...')
 
-    access_code = get_security(operation_data, spec_data, service)
+    auth, auth_loc = get_security(operation_data, spec_data, service)
+
+    print('Sending request...')
+
+    response = send_request(server, endpoint, method,
+                            parameters_data, operation_data, body_data, auth, auth_loc)
