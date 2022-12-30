@@ -13,8 +13,8 @@ Here is the OpenAPI specification for the parameters you can use.
 
 {parameters_data}
 
-Here are the parameters details (only names and their values), in JSON format, you must use to complete the Step.
+Here are the parameters details (keys=parameter name, value=parameter value), in JSON format, you must use to complete the Step.
 If a parameter is not required and not necessary (empty value), it should NOT be included:
 
-{{"name":"
+{{"
 """

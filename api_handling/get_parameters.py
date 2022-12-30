@@ -37,10 +37,27 @@ def get_parameters(user_input, step, context_data, operation_data):
         temperature=0
     )
 
-    result = '{\"name\": \"' + completion.choices[0].text
+    result = '{\"' + completion.choices[0].text
 
     print('> Using parameters:' + result)
 
+    # TODO: Parameters functionality changed. Ensure it works.
     result_data = json.loads(result)
 
-    return result_data
+    # {"Parameter name": "Parameter Value"}
+    path_params = {}
+    query_params = {}
+
+    for parameter_data in operation_data['parameters']:
+        name = parameter_data['name']
+        loc = parameter_data['in']
+        val = result_data[name]
+        if loc == 'path':
+            path_params[name] = val
+        elif loc == 'query':
+            query_params[name] = val
+        else:
+            # TODO: Support other parameter types.
+            print('[!] Unsupported parameter type found')
+
+    return path_params, query_params
