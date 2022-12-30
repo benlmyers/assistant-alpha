@@ -6,6 +6,7 @@ from api_handling.get_body import get_body
 from api_handling.get_service import get_service
 from api_handling.get_spec import get_spec
 from api_handling.get_security import get_security
+from api_handling.get_server import get_server
 from api_handling.send_request import send_request
 from models import DAVINCI
 from prompts.get_request import get_request_prompt
@@ -40,7 +41,7 @@ def api_step(user_input, step, context_data):
     print('Getting parameters...')
 
     # Get the parameters data for the request.
-    parameters_data = get_parameters(
+    path_params, query_params = get_parameters(
         user_input, step, context_data, operation_data)
 
     if (method == 'post'):
@@ -57,4 +58,4 @@ def api_step(user_input, step, context_data):
     print('Sending request...')
 
     response = send_request(server, endpoint, method,
-                            parameters_data, operation_data, body_data, auth, auth_loc)
+                            path_params, query_params, body_data, auth, auth_loc)

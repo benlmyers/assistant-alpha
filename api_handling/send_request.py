@@ -1,10 +1,25 @@
-def send_request(server, endpoint, method, parameters_data, operation_data, body_data, auth, auth_loc):
+def send_request(server, endpoint, method, path_params, query_params, body_data, auth, auth_loc):
 
     url = server + endpoint
 
-    path_parameters = {}
+    # TODO: Match expressions within { }""
+    keywords = []
 
-    for parameter_data in parameters_data:
+    for keyword in keywords:
+        url = url.replace('{' + keyword + '}', path_params[keyword])
 
-        if parameter_data['in'] == 'path':
-            path_parameters[parameter_data['name']] = parameter
+    # TODO: Implement for each auth location.
+    if auth_loc == 'bearer':
+        # Header - Authorization: Bearer {value}
+        pass
+    elif auth_loc == 'authorizationCode':
+        # Header - Authorization Bearar {value}
+        pass
+    elif auth_loc == 'apiKey':
+        # Could be anywhere. Need to reread openapi spec
+        pass
+
+    # TODO: Form and send the request.
+
+    # TODO: Get the response data.
+    return
