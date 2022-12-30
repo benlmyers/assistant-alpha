@@ -20,7 +20,7 @@ def get_operations(user_input, step, spec_source, spec_data):
     if spec_source == "openapi":
         endpoints = get_endpoints_openapi(spec_data)
     else:
-        print('Error: Specification source not supported')
+        print('[x] Specification source not supported')
 
     print('> Choosing the best endpoint to use')
 

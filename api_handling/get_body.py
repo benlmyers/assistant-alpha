@@ -38,7 +38,7 @@ def get_body(user_input, step, context_data, operation_data):
 
     result = '{' + completion.choices[0].text
 
-    print('> Using body:' + result)
+    print('> Using body: ' + result)
 
     result_data = json.loads(result)
 

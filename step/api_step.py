@@ -17,7 +17,7 @@ def api_step(user_input, step, context_data):
     # Get the relevant service i.e. Twitter, Google Calendar, etc.
     service = get_service(user_input, step)
 
-    print('Picking an endpoint for ' + service + '...')
+    print('> Getting operations for ' + service + '...')
 
     # Get the specification source and data for the specific service.
     # For example, for Twitter, spec_source = "openapi" and spec_data is the JSON data from specifications/openapi/twitter.json
@@ -28,7 +28,9 @@ def api_step(user_input, step, context_data):
     raw_operations = get_operations(
         user_input, step, spec_source, spec_data)
 
-    server = get_server(spec_data)
+    server = get_server(spec_source, spec_data)
+
+    print('> Using server ' + server)
 
     raw_operations = raw_operations.split('\n')
 
@@ -38,31 +40,33 @@ def api_step(user_input, step, context_data):
         endpoint = raw_operation.split(' ')[1].strip()
         # For example, "get"
         method = raw_operation.split(' ')[0].strip().lower()
-        # The mini-summary to use with this specific operation.
-        substep = raw_operation.split(' ')[2].strip()
+        # Get text inside ( )
+        substep = raw_operation.split('(')[1].split(')')[0].strip()
+
+        print('> Performing substep: ' + substep)
 
         # Step description (substep description)
-        detailed_step = step + ' ' + substep
+        detailed_step = step + ' - ' + substep
 
         operation_data = spec_data['paths'][endpoint][method.lower()]
 
-        print('Getting parameters...')
+        print('> Getting parameters...')
         # Get the parameters data for the request.
         path_params, query_params = get_parameters(
             user_input, step, context_data, operation_data)
 
         if (method == 'post'):
-            print('Getting request body...')
+            print('> Getting request body...')
 
             # Get the parameters data for the request.
             body_data = get_body(
                 user_input, detailed_step, context_data, operation_data)
 
-        print('Getting authorization...')
+        print('> Getting authorization...')
 
         auth, auth_loc = get_security(operation_data, spec_data, service)
 
-        print('Sending request...')
+        print('> Sending request...')
 
         response = send_request(server, endpoint, method,
                                 path_params, query_params, body_data, auth, auth_loc)

@@ -20,7 +20,7 @@ def get_parameters(user_input, step, context_data, operation_data):
     parameters_data = operation_data["parameters"]
 
     if parameters_data == []:
-        return []
+        return {}, {}
 
     # Get the AI prompt asking to form the request.
     prompt = get_parameters_prompt(
