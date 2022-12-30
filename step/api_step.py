@@ -1,6 +1,6 @@
 from openai.api_resources.completion import Completion
 
-from api_handling.get_operation import get_operation
+from api_handling.get_operations import get_operations
 from api_handling.get_parameters import get_parameters
 from api_handling.get_body import get_body
 from api_handling.get_service import get_service
@@ -27,7 +27,7 @@ def api_step(user_input, step, context_data):
     # For example, "GET /2/compliance/jobs (goal)"
     raw_operations = get_operations(
         user_input, step, spec_source, spec_data)
-        
+
     server = get_server(spec_data)
 
     raw_operations = raw_operations.split('\n')
@@ -65,4 +65,4 @@ def api_step(user_input, step, context_data):
         print('Sending request...')
 
         response = send_request(server, endpoint, method,
-                            path_params, query_params, body_data, auth, auth_loc)
+                                path_params, query_params, body_data, auth, auth_loc)
