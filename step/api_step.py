@@ -6,6 +6,8 @@ from api_handling.get_body import get_body
 from api_handling.get_service import get_service
 from api_handling.get_spec import get_spec
 from api_handling.get_security import get_security
+from api_handling.get_server import get_server
+from api_handling.send_request import send_request
 from models import DAVINCI
 from prompts.get_request import get_request_prompt
 
@@ -25,6 +27,8 @@ def api_step(user_input, step, context_data):
     # For example, "GET /2/compliance/jobs (goal)"
     raw_operations = get_operations(
         user_input, step, spec_source, spec_data)
+        
+    server = get_server(spec_data)
 
     raw_operations = raw_operations.split('\n')
 
@@ -43,10 +47,9 @@ def api_step(user_input, step, context_data):
         operation_data = spec_data['paths'][endpoint][method.lower()]
 
         print('Getting parameters...')
-
         # Get the parameters data for the request.
-        parameters_data = get_parameters(
-            user_input, detailed_step, context_data, operation_data)
+        path_params, query_params = get_parameters(
+            user_input, step, context_data, operation_data)
 
         if (method == 'post'):
             print('Getting request body...')
@@ -57,5 +60,9 @@ def api_step(user_input, step, context_data):
 
         print('Getting authorization...')
 
-        authorization, auth_location = get_security(
-            operation_data, spec_data, service)
+        auth, auth_loc = get_security(operation_data, spec_data, service)
+
+        print('Sending request...')
+
+        response = send_request(server, endpoint, method,
+                            path_params, query_params, body_data, auth, auth_loc)
