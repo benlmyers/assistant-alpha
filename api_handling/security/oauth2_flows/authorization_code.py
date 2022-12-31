@@ -9,6 +9,7 @@ import webbrowser
 import requests
 from authlib.integrations.requests_client import OAuth2Session
 from flask import Flask, redirect, request
+from waiting import wait
 
 
 def authorization_code(flow_data, client_id, client_secret, scopes):
@@ -41,16 +42,53 @@ def authorization_code(flow_data, client_id, client_secret, scopes):
         uri[uri.find('state=') + 6:uri.find('&code_challenge')], 'state')
     uri = uri + '&code_challenge=challenge&code_challenge_method=plain'
 
-    @app.route("/")
+    @ app.route("/")
     def _():
         return redirect(uri)
 
-    @app.route("/oauth/callback", methods=["GET"])
+    @ app.route("/oauth/callback", methods=["GET"])
     def __():
-        authorization_response = request.full_path
-        token = client.fetch_token(
-            token_url, authorization_response=authorization_response, client_secret=client_secret)
-        # os.kill(os.getpid(), signal.SIGINT)
-        return "Authorized. You can return to the Python app."
+        code = request.full_path[request.full_path.find('code=') + 5:]
+
+        resp = requests.post(
+            token_url,
+            data={
+                'code': code,
+                'grant_type': 'authorization_code',
+                'client_id': client_id,
+                'redirect_uri': callback_uri,
+                'code_verifier': 'challenge'
+            },
+            headers={
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': 'Basic WXkxTlVWQTNSbkZLVnpGRVdXUm5aSGxJTmtjNk1UcGphUTpzaGd6MFFjWU56MjVmT3VXcmxGVmZaUTFQWW9nTlN0Z1VVTlpTY0lleUQycHgySFBDdA=='
+            }
+        )
+
+        access_token = resp.content['access_token']
+
+        os.kill(os.getpid(), signal.SIGINT)
+
+        return
 
     app.run()
+
+
+def test():
+    authorization_code(
+        {
+            "authorizationUrl": "https://twitter.com/i/oauth2/authorize",
+            "tokenUrl": "https://api.twitter.com/2/oauth2/token",
+        },
+        "Yy1NUVA3RnFKVzFEWWRnZHlINkc6MTpjaQ",
+        "shgz0QcYNz25fOuWrlFVfZQ1PYogNStgUUNZScIeyD2px2HPCt",
+        ['tweet.read', 'tweet.write', 'users.read']
+    )
+
+
+test()
+
+
+def wait_until(predicate, timeout, period=0.25):
+
+    return False
