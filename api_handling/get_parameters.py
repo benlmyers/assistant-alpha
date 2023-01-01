@@ -15,7 +15,7 @@ def get_parameters(user_input, step, context_data, operation_data):
     # DAVINCI is a smart model capable of handling complex tasks.
     model = DAVINCI
     # The parameters JSON data may not be longer than 256 tokens (words and characters).
-    max_tokens = 256
+    max_tokens = 512
 
     parameters_data = operation_data["parameters"]
 
@@ -39,7 +39,7 @@ def get_parameters(user_input, step, context_data, operation_data):
 
     result = '{\"' + completion.choices[0].text
 
-    print('> Using parameters:' + result)
+    print('> Using parameters: ' + result)
 
     # TODO: Parameters functionality changed. Ensure it works.
     result_data = json.loads(result)

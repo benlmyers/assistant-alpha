@@ -31,8 +31,8 @@ def get_spec(service):
     spec_f = open(spec_file_name)
     data = json.loads(spec_f.read())
 
-    if specification_source == "opanpi":
-        data = remove_component_references_openapi(data, data)
+    # if specification_source == 'openapi':
+    data = remove_component_references_openapi(data, data)
 
     spec_f.close()
 
@@ -44,15 +44,25 @@ def remove_component_references_openapi(orig_data, data):
     # Remove all nested objects with key "$ref"
     if isinstance(data, dict):
         for key in list(data.keys()):
-            if key == '$ref':
-                data[key] = get_component_openapi(orig_data, data[key])
+            if is_reference_object(data[key]):
+                data[key] = get_component_openapi(orig_data, data[key]['$ref'])
             else:
                 remove_component_references_openapi(orig_data, data[key])
     elif isinstance(data, list):
         for index in range(len(data)):
-            remove_component_references_openapi(orig_data, data[index])
+            if is_reference_object(data[index]):
+                data[index] = get_component_openapi(
+                    orig_data, data[index]['$ref'])
+            else:
+                remove_component_references_openapi(orig_data, data[index])
 
     return data
+
+
+def is_reference_object(data):
+    if isinstance(data, dict) and '$ref' in data.keys():
+        return True
+    return False
 
 
 def get_component_openapi(data, path):

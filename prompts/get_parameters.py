@@ -13,8 +13,11 @@ Here is the OpenAPI specification for the parameters you can use.
 
 {parameters_data}
 
-Here are the parameters details (keys=parameter name, value=parameter value), in JSON format, you must use to complete the Step.
-If a parameter is not required and not necessary (empty value), it should NOT be included:
+Here's an example of a valid result:
 
-{{"
-"""
+{{\"backfill_minutes\": 1, \"text\": \"Hello, world!\"}}
+
+Here are the parameters details (keys=parameter name, value=parameter value), in JSON format, you must use to complete the Step.
+If a parameter is not required and not necessary (empty value, or DEFAULT), it should NOT be included:
+
+{{\""""
