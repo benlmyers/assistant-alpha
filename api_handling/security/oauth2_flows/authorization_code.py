@@ -14,10 +14,9 @@ from waiting import wait
 access_token = ''
 
 
-async def authorization_code(flow_data, client_id, client_secret, scopes):
+def authorization_code(flow_data, client_id, client_secret, scopes):
 
     app = Flask(__name__)
-    app.run(use_reloader=False)
 
     log = logging.getLogger('authlib')
 
@@ -73,6 +72,8 @@ async def authorization_code(flow_data, client_id, client_secret, scopes):
         access_token = resp.json()['access_token']
 
         return "You can return to Assistant terminal."
+
+    app.run(use_reloader=False)
 
     global access_token
     wait(lambda: access_token != '',
