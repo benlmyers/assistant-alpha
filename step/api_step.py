@@ -55,6 +55,7 @@ def api_step(user_input, step, context_data):
         path_params, query_params = get_parameters(
             user_input, step, context_data, operation_data)
 
+        body_data = {}
         if (method == 'post'):
             print('> Getting request body...')
 

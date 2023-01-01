@@ -3,12 +3,15 @@ import json
 from api_handling.security.oauth2_flows.authorization_code import authorization_code
 
 
-def oauth2(scheme_data, operation_data, service):
+def oauth2(scheme_data, operation_data, service, scheme_name):
 
     print('> Using OAuth 2.0')
 
     flows_data = scheme_data['flows']
-    scheme_name = scheme_data['name']
+
+    # for security_candidate in operation_data['security']:
+    #     if scheme_name in security_candidate.keys():
+    #         scopes = security_candidate[scheme_name]
 
     print('> Getting consumer credentials')
 
