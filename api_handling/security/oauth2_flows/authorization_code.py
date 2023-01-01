@@ -78,6 +78,3 @@ def test():
         "shgz0QcYNz25fOuWrlFVfZQ1PYogNStgUUNZScIeyD2px2HPCt",
         ['tweet.read', 'tweet.write', 'users.read']
     )
-
-
-test()

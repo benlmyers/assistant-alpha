@@ -70,3 +70,7 @@ def api_step(user_input, step, context_data):
 
         response = send_request(server, endpoint, method,
                                 path_params, query_params, body_data, auth, auth_loc)
+
+        print('> Request sent.')
+        print('> Response: ' + str(response.status_code))
+        print(response.text)
