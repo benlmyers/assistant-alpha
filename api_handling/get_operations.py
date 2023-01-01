@@ -13,8 +13,8 @@ def get_operations(user_input, step, spec_source, spec_data):
 
     # DAVINCI is a smart model capable of handling complex tasks.
     model = DAVINCI
-    # An operation should be no longer than 32 words.
-    max_tokens = 32
+    # Operations should be no longer than 128 tokens.
+    max_tokens = 128
 
     # Get a list of endpoints for the service using the specification data.
     if spec_source == "openapi":

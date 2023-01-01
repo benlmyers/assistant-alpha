@@ -64,7 +64,7 @@ Response:
     if ',' in result:
         steps = result.split(',')
     else:
-        steps = result
+        steps = [result]
 
     formatted_steps = [step.strip() for step in steps]
 

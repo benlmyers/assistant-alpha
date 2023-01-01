@@ -51,6 +51,8 @@ def get_parameters(user_input, step, context_data, operation_data):
     for parameter_data in operation_data['parameters']:
         name = parameter_data['name']
         loc = parameter_data['in']
+        if not name in result_data:
+            continue
         val = result_data[name]
         if loc == 'path':
             path_params[name] = val
