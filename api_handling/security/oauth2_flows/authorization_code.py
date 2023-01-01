@@ -4,19 +4,15 @@ import os
 import signal
 import sys
 import time
-import webbrowser
 
 import requests
 from authlib.integrations.requests_client import OAuth2Session
-from flask import Flask, redirect, request
 from waiting import wait
 
 access_token = ''
 
 
 def authorization_code(flow_data, client_id, client_secret, scopes):
-
-    app = Flask(__name__)
 
     log = logging.getLogger('authlib')
 
@@ -44,44 +40,32 @@ def authorization_code(flow_data, client_id, client_secret, scopes):
         uri[uri.find('state=') + 6:uri.find('&code_challenge')], 'state')
     uri = uri + '&code_challenge=challenge&code_challenge_method=plain'
 
-    @ app.route("/")
-    def _():
-        return redirect(uri)
+    print('Open this URL in your browser: ' + uri)
 
-    @ app.route("/oauth/callback", methods=["GET"])
-    def __():
-        global access_token
+    callback = input('Paste the URL here: ')
 
-        code = request.full_path[request.full_path.find('code=') + 5:]
+    code = callback[callback.find('code=') + 5:]
 
-        resp = requests.post(
-            token_url,
-            data={
-                'code': code,
-                'grant_type': 'authorization_code',
-                'client_id': client_id,
-                'redirect_uri': callback_uri,
-                'code_verifier': 'challenge'
-            },
-            headers={
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'Authorization': 'Basic WXkxTlVWQTNSbkZLVnpGRVdXUm5aSGxJTmtjNk1UcGphUTpzaGd6MFFjWU56MjVmT3VXcmxGVmZaUTFQWW9nTlN0Z1VVTlpTY0lleUQycHgySFBDdA=='
-            }
-        )
+    resp = requests.post(
+        token_url,
+        data={
+            'code': code,
+            'grant_type': 'authorization_code',
+            'client_id': client_id,
+            'redirect_uri': callback_uri,
+            'code_verifier': 'challenge'
+        },
+        headers={
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': 'Basic WXkxTlVWQTNSbkZLVnpGRVdXUm5aSGxJTmtjNk1UcGphUTpzaGd6MFFjWU56MjVmT3VXcmxGVmZaUTFQWW9nTlN0Z1VVTlpTY0lleUQycHgySFBDdA=='
+        }
+    )
 
-        access_token = resp.json()['access_token']
+    access_token = resp.json()['access_token']
 
-        return "You can return to Assistant terminal."
+    print('> Authorized.')
 
-    app.run(use_reloader=False)
-
-    global access_token
-    wait(lambda: access_token != '',
-         timeout_seconds=120, waiting_for="Access Token")
-
-    os.kill(os.getpid(), signal.SIGINT)
-
-    print('ACCESS TOKEN SUCCESS')
+    return access_token
 
 
 def test():
