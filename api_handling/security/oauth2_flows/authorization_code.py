@@ -4,16 +4,15 @@ import os
 import signal
 import sys
 import time
-import webbrowser
 
 import requests
 from authlib.integrations.requests_client import OAuth2Session
-from flask import Flask, redirect, request
+from waiting import wait
+
+access_token = ''
 
 
 def authorization_code(flow_data, client_id, client_secret, scopes):
-
-    app = Flask(__name__)
 
     log = logging.getLogger('authlib')
 
@@ -41,16 +40,44 @@ def authorization_code(flow_data, client_id, client_secret, scopes):
         uri[uri.find('state=') + 6:uri.find('&code_challenge')], 'state')
     uri = uri + '&code_challenge=challenge&code_challenge_method=plain'
 
-    @app.route("/")
-    def _():
-        return redirect(uri)
+    print('Open this URL in your browser: ' + uri)
 
-    @app.route("/oauth/callback", methods=["GET"])
-    def __():
-        authorization_response = request.full_path
-        token = client.fetch_token(
-            token_url, authorization_response=authorization_response, client_secret=client_secret)
-        # os.kill(os.getpid(), signal.SIGINT)
-        return "Authorized. You can return to the Python app."
+    callback = input('Paste the URL here: ')
 
-    app.run()
+    code = callback[callback.find('code=') + 5:]
+
+    resp = requests.post(
+        token_url,
+        data={
+            'code': code,
+            'grant_type': 'authorization_code',
+            'client_id': client_id,
+            'redirect_uri': callback_uri,
+            'code_verifier': 'challenge'
+        },
+        headers={
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': 'Basic WXkxTlVWQTNSbkZLVnpGRVdXUm5aSGxJTmtjNk1UcGphUTpzaGd6MFFjWU56MjVmT3VXcmxGVmZaUTFQWW9nTlN0Z1VVTlpTY0lleUQycHgySFBDdA=='
+        }
+    )
+
+    access_token = resp.json()['access_token']
+
+    print('> Authorized.')
+
+    return access_token
+
+
+def test():
+    authorization_code(
+        {
+            "authorizationUrl": "https://twitter.com/i/oauth2/authorize",
+            "tokenUrl": "https://api.twitter.com/2/oauth2/token",
+        },
+        "Yy1NUVA3RnFKVzFEWWRnZHlINkc6MTpjaQ",
+        "shgz0QcYNz25fOuWrlFVfZQ1PYogNStgUUNZScIeyD2px2HPCt",
+        ['tweet.read', 'tweet.write', 'users.read']
+    )
+
+
+test()

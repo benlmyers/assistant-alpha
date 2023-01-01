@@ -19,3 +19,6 @@ def get_security(operation_data, spec_data, service):
     for scheme in security_schemes:
         if scheme['type'] == 'oauth2':
             access_code = oauth2(scheme, operation_data, service)
+            return access_code, 'bearer'
+
+    return '', 'error'
