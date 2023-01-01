@@ -28,9 +28,9 @@ def oauth2(scheme_data, operation_data, service):
         access_code = authorization_code(
             flows_data['authorizationCode'], client_id, client_secret, scopes)
 
-    #print('> Found access code: ' + access_code)
+    print('> Found access code: ' + access_code)
 
-    # return access_code
+    return access_code
 
 
 def get_consumer_credentials(service):

@@ -11,10 +11,13 @@ from authlib.integrations.requests_client import OAuth2Session
 from flask import Flask, redirect, request
 from waiting import wait
 
+access_token = ''
 
-def authorization_code(flow_data, client_id, client_secret, scopes):
+
+async def authorization_code(flow_data, client_id, client_secret, scopes):
 
     app = Flask(__name__)
+    app.run(use_reloader=False)
 
     log = logging.getLogger('authlib')
 
@@ -48,6 +51,8 @@ def authorization_code(flow_data, client_id, client_secret, scopes):
 
     @ app.route("/oauth/callback", methods=["GET"])
     def __():
+        global access_token
+
         code = request.full_path[request.full_path.find('code=') + 5:]
 
         resp = requests.post(
@@ -65,13 +70,17 @@ def authorization_code(flow_data, client_id, client_secret, scopes):
             }
         )
 
-        access_token = resp.content['access_token']
+        access_token = resp.json()['access_token']
 
-        os.kill(os.getpid(), signal.SIGINT)
+        return "You can return to Assistant terminal."
 
-        return
+    global access_token
+    wait(lambda: access_token != '',
+         timeout_seconds=120, waiting_for="Access Token")
 
-    app.run()
+    os.kill(os.getpid(), signal.SIGINT)
+
+    print('ACCESS TOKEN SUCCESS')
 
 
 def test():
@@ -87,8 +96,3 @@ def test():
 
 
 test()
-
-
-def wait_until(predicate, timeout, period=0.25):
-
-    return False
