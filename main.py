@@ -20,12 +20,12 @@ total_steps = len(steps)
 context_data = '[No data]'
 
 
-for step in steps:
+for step in enumerate(steps):
     count += 1
     print(f'Step {count} of {total_steps}: {step}')
     if '(API)' in step:
         print('[...]')
-        api_step(user_input, step, context_data)
+        context_data = api_step(user_input, step, context_data)
     elif '(IO)' in step:
         print('[...]')
         context_data = io_step(step)

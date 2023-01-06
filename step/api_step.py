@@ -14,6 +14,9 @@ from prompts.get_request import get_request_prompt
 
 def api_step(user_input, step, context_data):
 
+    # This context data can be modified with new information from the API response.
+    _context_data = context_data
+
     # Get the relevant service i.e. Twitter, Google Calendar, etc.
     service = get_service(user_input, step)
 
@@ -34,7 +37,7 @@ def api_step(user_input, step, context_data):
 
     raw_operations = raw_operations.split('\n')
 
-    for raw_operation in raw_operations:
+    for i, raw_operation in enumerate(raw_operations):
         # Extract the endpoint and method from the above operation string.
         # For example, "/2/compliance/jobs"
         endpoint = raw_operation.split(' ')[1].strip()
@@ -43,7 +46,8 @@ def api_step(user_input, step, context_data):
         # Get text inside ( )
         substep = raw_operation.split('(')[1].split(')')[0].strip()
 
-        print('> Performing substep: ' + substep)
+        print('> Performing substep ' + (i+1) + ' of ' +
+              len(raw_operations) + ': ' + substep)
 
         # Step description (substep description)
         detailed_step = step + ' - ' + substep
@@ -53,7 +57,7 @@ def api_step(user_input, step, context_data):
         print('> Getting parameters...')
         # Get the parameters data for the request.
         path_params, query_params = get_parameters(
-            user_input, step, context_data, operation_data)
+            user_input, detailed_step, _context_data, operation_data)
 
         body_data = {}
         if (method == 'post'):
@@ -61,7 +65,7 @@ def api_step(user_input, step, context_data):
 
             # Get the parameters data for the request.
             body_data = get_body(
-                user_input, detailed_step, context_data, operation_data)
+                user_input, detailed_step, _context_data, operation_data)
 
         print('> Getting authorization...')
 
@@ -72,6 +76,45 @@ def api_step(user_input, step, context_data):
         response = send_request(server, endpoint, method,
                                 path_params, query_params, body_data, auth, auth_loc)
 
-        print('> Request sent.')
         print('> Response: ' + str(response.status_code))
         print(response.text)
+
+        if str(response.status_code).startswith('4'):
+            print('> An issue occured. Operation failed.')
+            return
+
+        response = response.text
+
+        if i < len(raw_operations) - 1:
+            print('> Getting context data for next operation...')
+
+            next_substep = raw_operations[i +
+                                          1].split('(')[1].split(')')[0].strip()
+
+            # There is another substep, grab the relevant context data for use in the next substep.
+            # Example:
+            # user_input = "Send a DM to Lionel Messi"
+            # step = "Send the message to Lionel Messi on Twitter"
+            # substep 1 = "Get Lionel Messi's Twitter user ID"
+            # substep 2 = "Send the message to the specified user ID"
+            # response (for substep 1) = {"data": {"id": "123456789"}} or something similar
+            # AI should parse response and return substep_data = "ID: 123456789"
+            substep_data = get_next_substep_context(
+                user_input, step, substep, next_substep, response)
+
+            # Set _context_data to the current context data + the new context data from the substep.
+            # So _context_data can be used correctly in the next substep.
+            _context_data = _context_data + '\n' + substep_data
+
+    # After all substeps in a step are completed, return the relevant context data.
+    # Example 1:
+    # user_input = "Post a summary this week's Google Calendar events on Twitter"
+    # step = "Get this week's calendar events from Google Calendar"
+    # response = {"data": {"items": [{"summary": "Meeting with John"}, {"summary": "Meeting with Jane"}]}}
+    # Return Value: "Meeting with John and Jane"
+    # Example 2:
+    # user_input = "Post a summary this week's Google Calendar events on Twitter"
+    # step = "Post the summary on Twitter"
+    # response = {"data": {"id": "123456789"}} (the twitter Post ID)
+    # Return Value: "Post tweeted with ID: 123456789"
+    return get_next_step_context(user_input, step, response)
