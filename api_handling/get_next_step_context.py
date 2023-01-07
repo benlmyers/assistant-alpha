@@ -1,9 +1,9 @@
 from openai import Completion
 
 from models import DAVINCI
-from prompts.get_next_substep_context import get_next_substep_context_prompt
+from prompts.get_next_step_context import get_next_step_context_prompt
 
-def get_next_substep_context(user_input, step, substep, next_substep, response):
+def get_next_step_context(user_input, step, response):
 
     # Should the prompt that grabs the endpoint be printed to the console?
     # Set to True if you need to debug incorrect endpoints being grabbed.
@@ -19,7 +19,7 @@ def get_next_substep_context(user_input, step, substep, next_substep, response):
     max_tokens = 128
 
     # Get an AI prompt asking to choose an endpoint and method to use.
-    prompt = get_next_substep_context_prompt(user_input, step, substep, next_substep, response)
+    prompt = get_next_step_context_prompt(user_input, step, response)
 
     if show_prompt:
         print('> Prompt: \n\n' + prompt + '\n')

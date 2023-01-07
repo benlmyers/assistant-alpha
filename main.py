@@ -23,13 +23,13 @@ context_data = '[No data]'
 for step in enumerate(steps):
     count += 1
     print(f'Step {count} of {total_steps}: {step}')
-    if '(API)' in step:
+    if '(API)' in step[1]:
         print('[...]')
         context_data = api_step(user_input, step, context_data)
-    elif '(IO)' in step:
+    elif '(IO)' in step[1]:
         print('[...]')
         context_data = io_step(step)
-    elif '(AI)' in step:
+    elif '(AI)' in step[1]:
         print('[...]')
         context_data = ai_step(user_input, step, context_data)
         print('Result:')
