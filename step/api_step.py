@@ -48,8 +48,8 @@ def api_step(user_input, step, context_data):
         # Get text inside ( )
         substep = raw_operation.split('(')[1].split(')')[0].strip()
 
-        print('> Performing substep ' + (i+1) + ' of ' +
-              len(raw_operations) + ': ' + substep)
+        print('> Performing substep ' + str(i+1) + ' of ' +
+              str(len(raw_operations)) + ': ' + substep)
 
         # Step description (substep description)
         detailed_step = step + ' - ' + substep

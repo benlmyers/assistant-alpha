@@ -49,7 +49,7 @@ def get_operations(user_input, step, spec_source, spec_data):
         stop='\n\n'
     )
 
-    operations_result = completion.choices[0].text
+    operations_result = completion.choices[0].text.strip()
 
     print('> Found operations: \n' + operations_result)
     return operations_result
