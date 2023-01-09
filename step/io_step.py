@@ -63,4 +63,5 @@ Category:"""
         # Category: Text Input
         return input("Enter text: ")
     else:
-        raise Exception("Invalid category")
+        print('[!] Warning: Invalid category.')
+        return input("Enter text: ")

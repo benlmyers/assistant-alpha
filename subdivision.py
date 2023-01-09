@@ -7,9 +7,9 @@ def subdivision(user_input):
     model = DAVINCI
     max_tokens = 512
 
-    prompt = f"""The following are user requests simplified into a list of tasks you (the Assistant) could complete in a single API call, or AI text completion.
+    prompt = f"""The following are user requests simplified into a list of tasks you (the Assistant) could complete using API's or text completions.
 
-If any API call is needed for each Task, add "(API)" at the end of the task. Use "(API)" only when needed.
+If any API calls are needed for each Task, add "(API)" at the end of the task. Use "(API)" only when needed. Each task should pertain to a single Service, like Google or Twitter, and not multiple.
 
 Else, if additional data or input is needed, add "(IO)" at the end of the task. Examples for IO include user input, location, calendar events, etc. IO should only be used when absolutely necessary.
 
@@ -41,6 +41,12 @@ User Request: Summarize a paragraph for me.
 Response:
 Get a paragraph from the user (IO),
 Summarize the paragraph (AI)
+
+User Request: Send a DM to my friend on Twitter.
+
+Response:
+Get the user's friend's Twitter handle (IO),
+Send a DM to the user's friend on Twitter (API)
 
 User Request: {user_input}
 
