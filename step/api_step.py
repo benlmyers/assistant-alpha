@@ -8,6 +8,8 @@ from api_handling.get_spec import get_spec
 from api_handling.get_security import get_security
 from api_handling.get_server import get_server
 from api_handling.send_request import send_request
+from api_handling.get_next_step_context import get_next_step_context
+from api_handling.get_next_substep_context import get_next_substep_context
 from models import DAVINCI
 from prompts.get_request import get_request_prompt
 
@@ -46,8 +48,8 @@ def api_step(user_input, step, context_data):
         # Get text inside ( )
         substep = raw_operation.split('(')[1].split(')')[0].strip()
 
-        print('> Performing substep ' + (i+1) + ' of ' +
-              len(raw_operations) + ': ' + substep)
+        print('> Performing substep ' + str(i+1) + ' of ' +
+              str(len(raw_operations)) + ': ' + substep)
 
         # Step description (substep description)
         detailed_step = step + ' - ' + substep
