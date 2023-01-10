@@ -2,14 +2,14 @@ import json
 
 from openai import Completion
 
-from models import ADA
+from models import BABBAGE
 from prompts.get_service import get_service_prompt
 
 
 def get_service(user_input, step):
 
     # ADA is a lightweight model, suitable for easy classification tasks.
-    model = ADA
+    model = BABBAGE
     # Service names will be no longer than 8 words.
     max_tokens = 8
 

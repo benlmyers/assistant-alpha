@@ -1,7 +1,7 @@
 from openai import Completion
 
 from Endpoint import Endpoint
-from models import DAVINCI
+from models import CURIE
 from prompts.get_operations import get_operations_prompt
 
 
@@ -12,7 +12,7 @@ def get_operations(user_input, step, spec_source, spec_data):
     show_prompt = False
 
     # DAVINCI is a smart model capable of handling complex tasks.
-    model = DAVINCI
+    model = CURIE
     # Operations should be no longer than 128 tokens.
     max_tokens = 128
 

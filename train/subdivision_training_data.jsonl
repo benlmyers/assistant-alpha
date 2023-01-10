@@ -1,0 +1,3 @@
+{"prompt": "Add events from today's inbox into my calendar.","completion": "[\"Get the user's emails from today's inbox (API)\", \"Extract the events from the user emails (AI)\", \"For each event, add it in the user's calendar (API)\"]"}
+{"prompt": "Create a budget for me using Google Sheets.","completion": "[\"Create a new Google Drive spreadsheet (API)\", \"Add headers for the budget categories (API)\", \"Add rows for sample budget items (API)\"]"}
+{"prompt": "Check the prices of Ubers from UCLA to LAX.","completion": "[\"Create a new Google Drive spreadsheet (API)\", \"Add headers for the budget categories (API)\", \"Add rows for sample budget items (API)\"]"}

@@ -6,6 +6,9 @@ from step.api_step import api_step
 from step.io_step import io_step
 from subdivision import subdivision
 
+# Should the Assistant collect training reinforcements from the user?
+TRAINING_MODE = True
+
 openai.api_key = sec.OPENAI_API_KEY
 openai.organization = sec.OPENAI_ORGANIZATION_ID
 
