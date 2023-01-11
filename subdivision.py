@@ -2,6 +2,7 @@ from openai.api_resources.completion import Completion
 from models import DAVINCI
 
 from prompts.subdivision import subdivision_prompt
+from train.train_from import train_from
 
 
 def subdivision(user_input):
@@ -24,6 +25,8 @@ def subdivision(user_input):
     # The steps are comma-seperated, and in between the characters '[' and ']'.
     result = completion.choices[0]
     result = result.text
+
+    result = train_from(result, "subdivision", user_input=user_input)
 
     if ',' in result:
         steps = result.split(',')

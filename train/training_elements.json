@@ -1,0 +1,16 @@
+{
+    "subdivision": [
+        {
+            "user_input": "Post a Tweet",
+            "result": "Get the user's Tweet (IO),\nPost the user's Tweet on Twitter (API)"
+        },
+        {
+            "user_input": "Send a DM to Lionel Messi",
+            "result": "Get the message to send (AI),\\nSend the message to Lionel Messi on Twitter (API)"
+        },
+        {
+            "user_input": "Post a Tweet",
+            "result": "Get the user's Tweet (IO),\nPost the user's Tweet on Twitter (API)"
+        }
+    ]
+}

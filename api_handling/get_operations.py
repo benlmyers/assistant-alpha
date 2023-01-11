@@ -9,7 +9,7 @@ def get_operations(user_input, step, spec_source, spec_data):
 
     # Should the prompt that grabs the endpoint be printed to the console?
     # Set to True if you need to debug incorrect endpoints being grabbed.
-    show_prompt = False
+    show_prompt = True
 
     # DAVINCI is a smart model capable of handling complex tasks.
     model = CURIE
