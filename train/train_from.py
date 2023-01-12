@@ -25,6 +25,15 @@ def train_from(result, mode, **kwargs):
 
         if (training_elements_data[mode] != None):
             arr = training_elements_data[mode]
+
+            exists = False
+            for data in arr:
+                if data['user_input'] == kwargs['user_input']:
+                    exists = True
+                    break
+            if exists:
+                return correct_result
+
             new_data = kwargs
             new_data['result'] = correct_result
             arr.append(new_data)
