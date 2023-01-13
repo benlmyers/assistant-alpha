@@ -14,7 +14,7 @@ from models import DAVINCI
 from prompts.get_request import get_request_prompt
 
 
-def api_step(user_input, step, context_data):
+def api_step(user_input, step, all_steps, context_data):
 
     # This context data can be modified with new information from the API response.
     _context_data = context_data
@@ -31,7 +31,7 @@ def api_step(user_input, step, context_data):
     # Get the operations needed for the API request.
     # For example, "GET /2/compliance/jobs (goal)"
     raw_operations = get_operations(
-        user_input, step, spec_source, spec_data)
+        user_input, step, all_steps, spec_source, spec_data)
 
     server = get_server(spec_source, spec_data)
 
