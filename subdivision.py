@@ -1,8 +1,9 @@
 from openai.api_resources.completion import Completion
 from models import DAVINCI
+from models import log_cost
 
 
-def subdivision(user_input):
+def subdivision(user_input, cost):
 
     model = DAVINCI
     max_tokens = 512
@@ -66,6 +67,8 @@ Response:
     # The steps are comma-seperated, and in between the characters '[' and ']'.
     result = completion.choices[0]
     result = result.text
+
+    log_cost(completion, cost)
 
     if ',' in result:
         steps = result.split(',')

@@ -4,9 +4,10 @@ import subprocess
 from openai import Completion
 
 from models import BABBAGE
+from models import log_cost
 
 
-def io_step(step):
+def io_step(step, cost):
 
     model = BABBAGE
     max_tokens = 8
@@ -45,6 +46,8 @@ Category:"""
     # Grab only the new text from the completion, after the last colon.
     result = completion.choices[0]
     category = result.text.split(':')[-1].strip()
+
+    log_cost(completion, cost)
 
     print('[Category] ' + category)
 

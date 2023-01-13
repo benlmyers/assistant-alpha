@@ -4,9 +4,10 @@ from openai import Completion
 
 from models import ADA
 from prompts.get_service import get_service_prompt
+from models import log_cost
 
 
-def get_service(user_input, step):
+def get_service(user_input, step, cost):
 
     # ADA is a lightweight model, suitable for easy classification tasks.
     model = ADA
@@ -27,6 +28,8 @@ def get_service(user_input, step):
         max_tokens=max_tokens,
         temperature=0
     )
+
+    log_cost(completion, cost)
 
     return completion.choices[0].text
 

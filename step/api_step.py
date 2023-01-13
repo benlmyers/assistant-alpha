@@ -14,13 +14,13 @@ from models import DAVINCI
 from prompts.get_request import get_request_prompt
 
 
-def api_step(user_input, step, all_steps, context_data):
+def api_step(user_input, step, all_steps, context_data, cost):
 
     # This context data can be modified with new information from the API response.
     _context_data = context_data
 
     # Get the relevant service i.e. Twitter, Google Calendar, etc.
-    service = get_service(user_input, step)
+    service = get_service(user_input, step, cost)
 
     print('> Getting operations for ' + service + '...')
 
@@ -31,7 +31,7 @@ def api_step(user_input, step, all_steps, context_data):
     # Get the operations needed for the API request.
     # For example, "GET /2/compliance/jobs (goal)"
     raw_operations = get_operations(
-        user_input, step, all_steps, spec_source, spec_data)
+        user_input, step, all_steps, spec_source, spec_data, cost)
 
     server = get_server(spec_source, spec_data)
 
@@ -59,7 +59,7 @@ def api_step(user_input, step, all_steps, context_data):
         print('> Getting parameters...')
         # Get the parameters data for the request.
         path_params, query_params = get_parameters(
-            user_input, detailed_step, _context_data, operation_data)
+            user_input, detailed_step, _context_data, operation_data, cost)
 
         body_data = {}
         if (method == 'post'):
@@ -67,7 +67,7 @@ def api_step(user_input, step, all_steps, context_data):
 
             # Get the parameters data for the request.
             body_data = get_body(
-                user_input, detailed_step, _context_data, operation_data)
+                user_input, detailed_step, _context_data, operation_data, cost)
 
         print('> Getting authorization...')
 
@@ -102,7 +102,7 @@ def api_step(user_input, step, all_steps, context_data):
             # response (for substep 1) = {"data": {"id": "123456789"}} or something similar
             # AI should parse response and return substep_data = "ID: 123456789"
             substep_data = get_next_substep_context(
-                user_input, step, substep, next_substep, response)
+                user_input, step, substep, next_substep, response, cost)
 
             # Set _context_data to the current context data + the new context data from the substep.
             # So _context_data can be used correctly in the next substep.
@@ -119,4 +119,4 @@ def api_step(user_input, step, all_steps, context_data):
     # step = "Post the summary on Twitter"
     # response = {"data": {"id": "123456789"}} (the twitter Post ID)
     # Return Value: "Post tweeted with ID: 123456789"
-    return get_next_step_context(user_input, step, response)
+    return get_next_step_context(user_input, step, response, cost)

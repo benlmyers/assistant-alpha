@@ -1,9 +1,10 @@
 from openai import Completion
 
 from models import DAVINCI
+from models import log_cost
 from prompts.get_next_step_context import get_next_step_context_prompt
 
-def get_next_step_context(user_input, step, response):
+def get_next_step_context(user_input, step, response, cost):
 
     # Should the prompt that grabs the endpoint be printed to the console?
     # Set to True if you need to debug incorrect endpoints being grabbed.
@@ -32,6 +33,8 @@ def get_next_step_context(user_input, step, response):
         temperature=0,
         stop='\n\n'
     )
+
+    log_cost(completion, cost)
 
     substep_context_result = completion.choices[0].text
 

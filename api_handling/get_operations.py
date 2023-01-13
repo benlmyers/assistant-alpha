@@ -2,14 +2,15 @@ from openai import Completion
 
 from Endpoint import Endpoint
 from models import DAVINCI
+from models import log_cost
 from prompts.get_operations import get_operations_prompt
 
 
-def get_operations(user_input, step, all_steps, spec_source, spec_data):
+def get_operations(user_input, step, all_steps, spec_source, spec_data, cost):
 
     # Should the prompt that grabs the endpoint be printed to the console?
     # Set to True if you need to debug incorrect endpoints being grabbed.
-    show_prompt = True
+    show_prompt = False
 
     # DAVINCI is a smart model capable of handling complex tasks.
     model = DAVINCI
@@ -46,6 +47,8 @@ def get_operations(user_input, step, all_steps, spec_source, spec_data):
         temperature=0,
         stop='\n\n'
     )
+
+    log_cost(completion, cost)
 
     operations_result = completion.choices[0].text.strip()
 
