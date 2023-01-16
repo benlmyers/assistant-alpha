@@ -3,11 +3,13 @@ import json
 from openai import Completion
 
 from models import DAVINCI
+from models import log_cost
 from prompts.get_body import get_body_prompt
 from train.train_from import train_from
 
 
-def get_body(user_input, step, context_data, operation_data):
+
+def get_body(user_input, step, context_data, operation_data, cost):
 
     # Should the prompt that grabs the endpoint be printed to the console?
     # Set to True if you need to debug incorrect endpoints being generated.
@@ -37,6 +39,8 @@ def get_body(user_input, step, context_data, operation_data):
         max_tokens=max_tokens,
         temperature=0
     )
+
+    log_cost(completion, cost)
 
     result = '{' + completion.choices[0].text
 

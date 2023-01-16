@@ -1,11 +1,12 @@
 from openai.api_resources.completion import Completion
 from models import DAVINCI
+from models import log_cost
 
 from prompts.subdivision import subdivision_prompt
 from train.train_from import train_from
 
 
-def subdivision(user_input):
+def subdivision(user_input, cost):
 
     model = DAVINCI
     max_tokens = 512
@@ -26,6 +27,7 @@ def subdivision(user_input):
     result = completion.choices[0]
     result = result.text
 
+    log_cost(completion, cost)
     result = train_from(result, "subdivision", user_input=user_input)
 
     if ',' in result:

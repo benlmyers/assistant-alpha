@@ -1,11 +1,12 @@
 from openai import Completion
 
 from models import DAVINCI
+from models import log_cost
 from prompts.get_next_substep_context import get_next_substep_context_prompt
 from train.train_from import train_from
 
 
-def get_next_substep_context(user_input, step, substep, next_substep, response):
+def get_next_substep_context(user_input, step, substep, next_substep, response, cost):
 
     # Should the prompt that grabs the endpoint be printed to the console?
     # Set to True if you need to debug incorrect endpoints being grabbed.
@@ -35,6 +36,8 @@ def get_next_substep_context(user_input, step, substep, next_substep, response):
         temperature=0,
         stop='\n\n'
     )
+
+    log_cost(completion, cost)
 
     result = completion.choices[0].text
 

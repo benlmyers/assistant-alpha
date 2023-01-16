@@ -3,15 +3,16 @@ import json
 from openai import Completion
 
 from models import DAVINCI
+from models import log_cost
 from prompts.get_parameters import get_parameters_prompt
 from train.train_from import train_from
 
 
-def get_parameters(user_input, step, context_data, operation_data):
+def get_parameters(user_input, step, context_data, operation_data, cost):
 
     # Should the prompt that grabs the endpoint be printed to the console?
     # Set to True if you need to debug incorrect endpoints being generated.
-    show_prompt = False
+    show_prompt = True
 
     # DAVINCI is a smart model capable of handling complex tasks.
     model = DAVINCI
@@ -37,6 +38,8 @@ def get_parameters(user_input, step, context_data, operation_data):
         max_tokens=max_tokens,
         temperature=0
     )
+
+    log_cost(completion, cost)
 
     result = '{\"' + completion.choices[0].text
 

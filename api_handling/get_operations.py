@@ -2,11 +2,12 @@ from openai import Completion
 
 from Endpoint import Endpoint
 from models import CURIE
+from models import log_cost
 from prompts.get_operations import get_operations_prompt
 from train.train_from import train_from
 
 
-def get_operations(user_input, step, spec_source, spec_data, service):
+def get_operations(user_input, step, all_steps, spec_source, spec_data, service, cost):
 
     # Should the prompt that grabs the endpoint be printed to the console?
     # Set to True if you need to debug incorrect endpoints being grabbed.
@@ -30,13 +31,11 @@ def get_operations(user_input, step, spec_source, spec_data, service):
     # Create a string listing every endpoint, their methods and summaries.
     # This string will be fed into the prompt for the AI.
     for endpoint in endpoints:
-        endpoint_str = endpoint.path
         for operation in endpoint.operations:
-            endpoint_str = endpoint_str + '\n' + operation
-        endpoints_str = endpoints_str + '\n' + endpoint_str + '\n'
+            endpoints_str = endpoints_str + '\n' + operation
 
     # Get an AI prompt asking to choose an endpoint and method to use.
-    prompt = get_operations_prompt(endpoints_str, user_input, step)
+    prompt = get_operations_prompt(endpoints_str, user_input, step, all_steps)
 
     if show_prompt:
         print('> Prompt: \n\n' + prompt + '\n')
@@ -49,6 +48,15 @@ def get_operations(user_input, step, spec_source, spec_data, service):
         temperature=0,
         stop='\n\n'
     )
+
+    log_cost(completion, cost)
+
+    result = completion.choices[0].text
+
+    result = train_from(result, "get_service",
+                        user_input=user_input, step=step, service=service)
+
+    operations_result = result.strip()
 
     result = completion.choices[0].text
 
