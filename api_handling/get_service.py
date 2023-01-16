@@ -4,6 +4,7 @@ from openai import Completion
 
 from models import BABBAGE
 from prompts.get_service import get_service_prompt
+from train.train_from import train_from
 
 
 def get_service(user_input, step):
@@ -28,7 +29,11 @@ def get_service(user_input, step):
         temperature=0
     )
 
-    return completion.choices[0].text
+    result = completion.choices[0].text
+
+    result = train_from(result, "get_service", step=step)
+
+    return result
 
 
 def get_available_services():

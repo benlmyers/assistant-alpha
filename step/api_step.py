@@ -1,5 +1,3 @@
-from openai.api_resources.completion import Completion
-
 from api_handling.get_operations import get_operations
 from api_handling.get_parameters import get_parameters
 from api_handling.get_body import get_body
@@ -10,8 +8,6 @@ from api_handling.get_server import get_server
 from api_handling.send_request import send_request
 from api_handling.get_next_step_context import get_next_step_context
 from api_handling.get_next_substep_context import get_next_substep_context
-from models import DAVINCI
-from prompts.get_request import get_request_prompt
 
 
 def api_step(user_input, step, context_data):
@@ -31,7 +27,7 @@ def api_step(user_input, step, context_data):
     # Get the operations needed for the API request.
     # For example, "GET /2/compliance/jobs (goal)"
     raw_operations = get_operations(
-        user_input, step, spec_source, spec_data)
+        user_input, step, spec_source, spec_data, service)
 
     server = get_server(spec_source, spec_data)
 

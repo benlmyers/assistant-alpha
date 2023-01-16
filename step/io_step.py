@@ -5,6 +5,8 @@ from openai import Completion
 
 from models import BABBAGE
 
+from train.train_from import train_from
+
 
 def io_step(step):
 
@@ -45,6 +47,8 @@ Category:"""
     # Grab only the new text from the completion, after the last colon.
     result = completion.choices[0]
     category = result.text.split(':')[-1].strip()
+
+    category = train_from(category, "io", step=step)
 
     print('[Category] ' + category)
 

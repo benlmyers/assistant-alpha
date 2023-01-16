@@ -6,7 +6,31 @@
         },
         {
             "user_input": "Send a DM to Lionel Messi",
-            "result": "Get the message to send (AI),\\nSend the message to Lionel Messi on Twitter (API)"
+            "result": "Get the message to send (AI),\nSend the message to Lionel Messi on Twitter (API)"
+        },
+        {
+            "user_input": "Post a tweet",
+            "result": "Get the tweet content from the user (IO),\nPost the tweet (API)"
         }
-    ]
+    ],
+    "io": [
+        {
+            "step": "Get the tweet content from the user (IO)",
+            "result": "Text Input"
+        },
+        {
+            "step": "Get the user's Tweet (IO)",
+            "result": "Text Input"
+        }
+    ],
+    "get_service": [
+        {
+            "step": "Post the user's Tweet on Twitter (API)",
+            "result": "twitter"
+        }
+    ],
+    "get_parameters": [],
+    "get_body": [],
+    "get_next_step_context": [],
+    "get_next_substep_context": []
 }

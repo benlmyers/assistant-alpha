@@ -3,15 +3,16 @@ from openai import Completion
 from Endpoint import Endpoint
 from models import CURIE
 from prompts.get_operations import get_operations_prompt
+from train.train_from import train_from
 
 
-def get_operations(user_input, step, spec_source, spec_data):
+def get_operations(user_input, step, spec_source, spec_data, service):
 
     # Should the prompt that grabs the endpoint be printed to the console?
     # Set to True if you need to debug incorrect endpoints being grabbed.
     show_prompt = True
 
-    # DAVINCI is a smart model capable of handling complex tasks.
+    # CURIE is a smart model capable of handling moderate tasks.
     model = CURIE
     # Operations should be no longer than 128 tokens.
     max_tokens = 128
@@ -49,7 +50,12 @@ def get_operations(user_input, step, spec_source, spec_data):
         stop='\n\n'
     )
 
-    operations_result = completion.choices[0].text.strip()
+    result = completion.choices[0].text
+
+    result = train_from(result, "get_service",
+                        user_input=user_input, step=step, service=service)
+
+    operations_result = result.strip()
 
     print('> Found operations: \n' + operations_result)
     return operations_result

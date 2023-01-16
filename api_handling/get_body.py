@@ -4,6 +4,8 @@ from openai import Completion
 
 from models import DAVINCI
 from prompts.get_body import get_body_prompt
+from train.train_from import train_from
+
 
 def get_body(user_input, step, context_data, operation_data):
 
@@ -37,6 +39,9 @@ def get_body(user_input, step, context_data, operation_data):
     )
 
     result = '{' + completion.choices[0].text
+
+    result = train_from(result, "get_body",
+                        user_input=user_input, step=step, operation_data=operation_data, context_data=context_data)
 
     print('> Using body: ' + result)
 

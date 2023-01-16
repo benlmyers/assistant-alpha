@@ -2,6 +2,8 @@ from openai import Completion
 
 from models import DAVINCI
 from prompts.get_next_step_context import get_next_step_context_prompt
+from train.train_from import train_from
+
 
 def get_next_step_context(user_input, step, response):
 
@@ -33,9 +35,12 @@ def get_next_step_context(user_input, step, response):
         stop='\n\n'
     )
 
-    substep_context_result = completion.choices[0].text
+    result = completion.choices[0].text
 
-    if(show_result):
-        print('> Found context: \n' + substep_context_result)
+    result = train_from(result, "get_next_step_context",
+                        user_input=user_input, step=step, response=response)
 
-    return substep_context_result
+    if (show_result):
+        print('> Found context: \n' + result)
+
+    return result

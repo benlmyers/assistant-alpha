@@ -23,16 +23,16 @@ def train_from(result, mode, **kwargs):
         training_elements_data = json.loads(f.read())
         f.close()
 
-        if (training_elements_data[mode] != None):
+        if mode in training_elements_data:
             arr = training_elements_data[mode]
 
-            exists = False
-            for data in arr:
-                if data['user_input'] == kwargs['user_input']:
-                    exists = True
-                    break
-            if exists:
-                return correct_result
+            for dict in arr:
+                dict_copy = True
+                for key in dict:
+                    if key != 'result' and dict[key] != kwargs[key]:
+                        dict_copy = False
+                if dict_copy:
+                    return correct_result
 
             new_data = kwargs
             new_data['result'] = correct_result

@@ -4,6 +4,7 @@ from openai import Completion
 
 from models import DAVINCI
 from prompts.get_parameters import get_parameters_prompt
+from train.train_from import train_from
 
 
 def get_parameters(user_input, step, context_data, operation_data):
@@ -38,6 +39,9 @@ def get_parameters(user_input, step, context_data, operation_data):
     )
 
     result = '{\"' + completion.choices[0].text
+
+    result = train_from(result, "get_parameters", user_input=user_input,
+                        step=step, context_data=context_data, operation_data=operation_data)
 
     print('> Using parameters: ' + result)
 
