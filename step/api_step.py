@@ -63,7 +63,7 @@ def api_step(user_input, step, all_steps, context_data, cost):
 
             # Get the parameters data for the request.
             body_data = get_body(
-                user_input, detailed_step, _context_data, operation_data, cost)
+                user_input, detailed_step, _context_data, operation_data, cost, service, operation)
 
         print('> Getting authorization...')
 

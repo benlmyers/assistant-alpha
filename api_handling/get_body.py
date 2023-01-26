@@ -9,7 +9,7 @@ from train.train_from import train_from
 
 
 
-def get_body(user_input, step, context_data, operation_data, cost):
+def get_body(user_input, step, context_data, operation_data, cost, service, operation):
 
     # Should the prompt that grabs the endpoint be printed to the console?
     # Set to True if you need to debug incorrect endpoints being generated.
@@ -45,7 +45,7 @@ def get_body(user_input, step, context_data, operation_data, cost):
     result = '{' + completion.choices[0].text
 
     result = train_from(result, "get_body",
-                        user_input=user_input, step=step, operation_data=operation_data, context_data=context_data)
+                        user_input=user_input, step=step, context_data=context_data, service=service, operation=operation)
 
     print('> Using body: ' + result)
 

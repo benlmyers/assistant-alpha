@@ -53,14 +53,7 @@ def get_operations(user_input, step, all_steps, spec_source, spec_data, service,
 
     result = completion.choices[0].text
 
-    result = train_from(result, "get_service",
-                        user_input=user_input, step=step, service=service)
-
-    operations_result = result.strip()
-
-    result = completion.choices[0].text
-
-    result = train_from(result, "get_service",
+    result = train_from(result, "get_operations",
                         user_input=user_input, step=step, service=service)
 
     operations_result = result.strip()

@@ -32,8 +32,6 @@ def get_service(user_input, step, cost):
 
     log_cost(completion, cost)
 
-    log_cost(completion, cost)
-
     result = completion.choices[0].text
 
     result = train_from(result, "get_service", step=step)
