@@ -11,7 +11,7 @@ def get_operations(user_input, step, all_steps, spec_source, spec_data, service,
 
     # Should the prompt that grabs the endpoint be printed to the console?
     # Set to True if you need to debug incorrect endpoints being grabbed.
-    show_prompt = True
+    show_prompt = False
 
     # CURIE is a smart model capable of handling moderate tasks.
     model = CURIE

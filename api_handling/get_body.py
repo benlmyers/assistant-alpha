@@ -8,12 +8,11 @@ from prompts.get_body import get_body_prompt
 from train.train_from import train_from
 
 
-
 def get_body(user_input, step, context_data, operation_data, cost, service, operation):
 
     # Should the prompt that grabs the endpoint be printed to the console?
     # Set to True if you need to debug incorrect endpoints being generated.
-    show_prompt = False
+    show_prompt = True
 
     # DAVINCI is a smart model capable of handling complex tasks.
     model = DAVINCI
@@ -42,7 +41,7 @@ def get_body(user_input, step, context_data, operation_data, cost, service, oper
 
     log_cost(completion, cost)
 
-    result = '{' + completion.choices[0].text
+    result = '{"' + completion.choices[0].text
 
     result = train_from(result, "get_body",
                         user_input=user_input, step=step, context_data=context_data, service=service, operation=operation)

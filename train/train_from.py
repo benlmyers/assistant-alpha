@@ -29,7 +29,7 @@ def train_from(result, mode, **kwargs):
             for dict in arr:
                 dict_copy = True
                 for key in dict:
-                    if key != 'result' and dict[key] != kwargs[key]:
+                    if dict[key] and key != 'result' and dict[key] != kwargs[key]:
                         dict_copy = False
                 if dict_copy:
                     return correct_result

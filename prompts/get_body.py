@@ -19,5 +19,5 @@ The types and descriptions of properties should NOT be included.
 Only the name and value of each included property should be listed.
 If a property is not required and not necessary (empty value), it should NOT be included:
 
-{{"Name:"
+{{"
 """
