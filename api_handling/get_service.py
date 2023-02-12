@@ -2,7 +2,7 @@ import json
 
 from openai import Completion
 
-from models import ADA
+from models import CURIE
 from prompts.get_service import get_service_prompt
 from models import log_cost
 
@@ -12,7 +12,7 @@ def get_service(user_input, step, cost):
     show_prompt = True
 
     # ADA is a lightweight model, suitable for easy classification tasks.
-    model = ADA
+    model = CURIE
     # Service names will be no longer than 8 words.
     max_tokens = 8
 
@@ -38,7 +38,7 @@ def get_service(user_input, step, cost):
 
     log_cost(completion, cost)
 
-    return completion.choices[0].text
+    return completion.choices[0].text.strip()
 
 
 def get_available_services():
