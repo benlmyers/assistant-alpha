@@ -44,7 +44,7 @@ def get_consumer_credentials(service):
 
     f.close()
 
-    client_id = secrets[service]['clientId']
-    client_secret = secrets[service]['clientSecret']
+    client_id = secrets[service]['oauth2.clientId']
+    client_secret = secrets[service]['oauth2.clientSecret']
 
     return client_id, client_secret
