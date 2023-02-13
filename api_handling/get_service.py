@@ -9,7 +9,7 @@ from models import log_cost
 
 def get_service(user_input, step, cost):
 
-    show_prompt = True
+    show_prompt = False
 
     # ADA is a lightweight model, suitable for easy classification tasks.
     model = CURIE
