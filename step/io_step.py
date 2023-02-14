@@ -7,6 +7,7 @@ from models import BABBAGE
 from models import log_cost
 
 from train.train_from import train_from
+from prompts.io_step import io_step_prompt
 
 
 def io_step(step, cost):
@@ -14,28 +15,7 @@ def io_step(step, cost):
     model = BABBAGE
     max_tokens = 8
 
-    prompt = f"""
-Classify the input/output items into one of the following categories:
-
-Text Input, Geolocation, Time
-
-Get today's date
-Category: Time
-
-Get the user's current location
-Category: Geolocation
-
-Get a paragraph input
-Category: Text Input
-
-Search Tweets
-Category: Text Input
-
-Get the user's friend's Instagarm handle
-Category: Text Input
-
-{step}
-Category:"""
+    prompt = io_step_prompt(step=step)
 
     # Get completion
     completion = Completion.create(
