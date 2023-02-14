@@ -23,7 +23,7 @@ def get_next_substep_context(user_input, step, substep, next_substep, response, 
 
     # Get an AI prompt asking to choose an endpoint and method to use.
     prompt = get_next_substep_context_prompt(
-        user_input, step, substep, next_substep, response)
+        user_input=user_input, step=step, substep=substep, next_substep=next_substep, response=response)
 
     if show_prompt:
         print('> Prompt: \n\n' + prompt + '\n')

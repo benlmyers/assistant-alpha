@@ -20,7 +20,8 @@ def get_service(user_input, step, cost):
     available_services = get_available_services()
 
     # Get an AI prompt that asks for the service to use
-    prompt = get_service_prompt(user_input, step, available_services)
+    prompt = get_service_prompt(
+        user_input=user_input, step=step, available_services=available_services)
 
     # Get completion
     completion = Completion.create(

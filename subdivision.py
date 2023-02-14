@@ -11,7 +11,7 @@ def subdivision(user_input, cost):
     model = DAVINCI
     max_tokens = 512
 
-    prompt = subdivision_prompt(user_input)
+    prompt = subdivision_prompt(user_input=user_input)
 
     # Get completion
     completion = Completion.create(

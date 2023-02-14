@@ -1,4 +1,4 @@
-def io_step_prompt(step):
+def io_step_prompt(**kwargs):
     return f"""
 Classify the input/output items into one of the following categories:
 
@@ -19,5 +19,5 @@ Category: Text Input
 Get the user's friend's Instagarm handle
 Category: Text Input
 
-{step}
+{kwargs['step']}
 Category:"""

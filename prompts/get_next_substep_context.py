@@ -1,4 +1,4 @@
-def get_next_substep_context_prompt(user_input, step, substep, next_substep, response):
+def get_next_substep_context_prompt(**kwargs):
 
     return f"""The following is the current user input:
 User Input: "Send a DM to Lionel Messi"
@@ -17,17 +17,17 @@ Processing the response, the context to be sent to the next substep is:
 ID: 123456789
 
 The following is the current user input:
-User Input: {user_input}
+User Input: {kwargs['user_input']}
 
 This is the current step in processing the user input:
-Step: {step}
+Step: {kwargs['step']}
 
 These are the current and upcoming substeps for processing the current step:
-Current Substep: {substep}
-Next Substep: {next_substep}
+Current Substep: {kwargs['substep']}
+Next Substep: {kwargs['next_substep']}
 
 The response from the current substep that needs to be sent as context to the next substep is:
-Response: {response}
+Response: {kwargs['response']}
 
 Processing the response, the context to be sent to the next substep is:
 

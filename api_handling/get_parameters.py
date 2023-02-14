@@ -26,7 +26,7 @@ def get_parameters(user_input, step, context_data, operation_data, cost):
 
     # Get the AI prompt asking to form the request.
     prompt = get_parameters_prompt(
-        user_input, step, context_data, parameters_data)
+        user_input=user_input, step=step, context_data=context_data, parameters_data=parameters_data)
 
     if show_prompt:
         print('> Prompt: \n\n' + prompt + '\n')

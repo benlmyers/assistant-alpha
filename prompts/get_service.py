@@ -1,4 +1,4 @@
-def get_service_prompt(user_input, step, available_services):
+def get_service_prompt(**kwargs):
 
     return f"""The following is a step for a Task you (the Assistant) could complete in a single API call.
 
@@ -22,11 +22,11 @@ Service to use for this step:
 uber
 
 
-Task: {user_input}
-Step to Focus on: {step}
+Task: {kwargs['user_input']}
+Step to Focus on: {kwargs['step']}
 
 The following is a list of services available to use:
-{available_services}
+{kwargs['available_services']}
 
 Service to use for this step:
 """

@@ -11,6 +11,10 @@
         {
             "user_input": "Post a tweet",
             "result": "Get the tweet content from the user (IO),\nPost the tweet (API)"
+        },
+        {
+            "user_input": "Summarize text for me",
+            "result": "Get the text from the user (IO),\nSummarize the text (AI)"
         }
     ],
     "io": [
@@ -20,6 +24,14 @@
         },
         {
             "step": "Get the user's Tweet (IO)",
+            "result": "Text Input"
+        },
+        {
+            "step": "Get a sentence as input (IO)",
+            "result": "Text Input"
+        },
+        {
+            "step": "Get the text from the user (IO)",
             "result": "Text Input"
         }
     ],

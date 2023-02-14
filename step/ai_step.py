@@ -11,7 +11,8 @@ def ai_step(user_input, step, context_data, cost):
     model = DAVINCI
     max_tokens = 256
 
-    prompt = ai_step_prompt(user_input, step, context_data)
+    prompt = ai_step_prompt(user_input=user_input,
+                            step=step, context_data=context_data)
 
     # Get completion
     completion = Completion.create(

@@ -26,7 +26,7 @@ def get_body(user_input, step, context_data, operation_data, cost, service, oper
 
     # Get the AI prompt asking to form the request.
     prompt = get_body_prompt(
-        user_input, step, context_data, body_data)
+        user_input=user_input, step=step, context_data=context_data, body_data=body_data)
 
     if show_prompt:
         print('> Prompt: \n\n' + prompt + '\n')

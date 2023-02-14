@@ -1,10 +1,10 @@
-def ai_step_prompt(user_input, step, context_data):
+def ai_step_prompt(**kwargs):
     return f"""The following is a step for a Task you (the Assistant) could complete in a single AI text completion: this one.
 
-Task: {user_input}
-Step to Focus on: {step}
+Task: {kwargs['user_input']}
+Step to Focus on: {kwargs['step']}
 Relevant Context Data:
-{context_data}
+{kwargs['context_data']}
 
 Correct completion data result:
 

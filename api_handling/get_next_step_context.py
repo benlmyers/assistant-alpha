@@ -22,7 +22,8 @@ def get_next_step_context(user_input, step, response, cost):
     max_tokens = 128
 
     # Get an AI prompt asking to choose an endpoint and method to use.
-    prompt = get_next_step_context_prompt(user_input, step, response)
+    prompt = get_next_step_context_prompt(
+        user_input=user_input, step=step, response=response)
 
     if show_prompt:
         print('> Prompt: \n\n' + prompt + '\n')

@@ -35,7 +35,8 @@ def get_operations(user_input, step, all_steps, spec_source, spec_data, service,
             endpoints_str = endpoints_str + '\n' + operation
 
     # Get an AI prompt asking to choose an endpoint and method to use.
-    prompt = get_operations_prompt(endpoints_str, user_input, step, all_steps)
+    prompt = get_operations_prompt(
+        endpoints_str=endpoints_str, user_input=user_input, step=step, all_steps=all_steps)
 
     if show_prompt:
         print('> Prompt: \n\n' + prompt + '\n')

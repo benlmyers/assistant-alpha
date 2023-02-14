@@ -1,7 +1,7 @@
-def get_operations_prompt(basic_endpoints_str, user_input, step, all_steps):
+def get_operations_prompt(**kwargs):
 
     return f"""The following is a list of API operations:
-{basic_endpoints_str}
+{kwargs['endpoints_str']}
 
 For the Task and Step, list all operations to use from the above list.
 At the end of the operation, provide a short summary in parentheses about the purpose of the operation.
@@ -22,9 +22,9 @@ Operations:
 
 GET /2/users/me (Obtain user data)
 
-Task: {user_input}
-All Steps: {all_steps}
-Step: {step}
+Task: {kwargs['user_input']}
+All Steps: {kwargs['all_steps']}
+Step: {kwargs['step']}
 Operations:
 
 """
