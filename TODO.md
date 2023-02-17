@@ -1,3 +1,6 @@
+**Active**
+> Example seperation from prompts
+
 - [ ] OpenAI fine-tuned model interface
 https://platform.openai.com/docs/api-reference/files/retrieve-content
     - [ ] 

@@ -35,7 +35,8 @@ def get_service(user_input, step, cost):
 
     result = completion.choices[0].text
 
-    result = train_from(result, "get_service", step=step)
+    result = train_from(result, "get_service",
+                        user_input=user_input, step=step)
 
     return result
 

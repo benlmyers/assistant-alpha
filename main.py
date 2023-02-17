@@ -8,6 +8,13 @@ from subdivision import subdivision
 
 # Should the Assistant collect training reinforcements from the user?
 TRAINING_MODE = True
+# Should training run? That is, should the Training Elements be converted to training data?
+RUN_TRAINING = True
+
+if RUN_TRAINING:
+    from train.generate_training_data import generate_training_data
+    generate_training_data()
+    exit()
 
 openai.api_key = sec.OPENAI_API_KEY
 openai.organization = sec.OPENAI_ORGANIZATION_ID
