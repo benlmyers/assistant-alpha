@@ -2,6 +2,7 @@
 
 /sec.py
 api_secrets.json
+out/
 
 # PYTHON TEMPLATE GITIGNORE
 

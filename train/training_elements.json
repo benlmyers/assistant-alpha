@@ -1,0 +1,84 @@
+{
+    "subdivision": [
+        {
+            "user_input": "Post a Tweet",
+            "result": "Get the user's Tweet (IO),\nPost the user's Tweet on Twitter (API)"
+        },
+        {
+            "user_input": "Send a DM to Lionel Messi",
+            "result": "Get the message to send (AI),\nSend the message to Lionel Messi on Twitter (API)"
+        },
+        {
+            "user_input": "Post a tweet",
+            "result": "Get the tweet content from the user (IO),\nPost the tweet (API)"
+        },
+        {
+            "user_input": "Summarize text for me",
+            "result": "Get the text from the user (IO),\nSummarize the text (AI)"
+        }
+    ],
+    "io": [
+        {
+            "step": "Get the tweet content from the user (IO)",
+            "result": "Text Input"
+        },
+        {
+            "step": "Get the user's Tweet (IO)",
+            "result": "Text Input"
+        },
+        {
+            "step": "Get a sentence as input (IO)",
+            "result": "Text Input"
+        },
+        {
+            "step": "Get the text from the user (IO)",
+            "result": "Text Input"
+        }
+    ],
+    "get_service": [
+        {
+            "user_input": "Post a Tweet",
+            "step": "Post the user's Tweet on Twitter (API)",
+            "result": "twitter"
+        },
+        {
+            "user_input": "Post a Tweet",
+            "step": "Post the tweet (API)",
+            "result": "twitter"
+        }
+    ],
+    "get_operations": [
+        {
+            "user_input": "Post a Tweet",
+            "step": "Post the user's Tweet on Twitter (API)",
+            "service": "twitter",
+            "result": "POST /2/tweets (Post a Tweet)"
+        }
+    ],
+    "get_parameters": [],
+    "get_body": [
+        {
+            "user_input": "Post a Tweet",
+            "step": "Post the user's Tweet on Twitter (API) - Post a Tweet",
+            "context_data": "hi world",
+            "service": "twitter",
+            "operation": "POST /2/tweets (Post a Tweet)",
+            "result": "{text\": \"hi world\"\n}"
+        }
+    ],
+    "get_next_step_context": [
+        {
+            "user_input": "Post a Tweet",
+            "step": "Post the user's Tweet on Twitter (API)",
+            "response": "{\"data\":{\"id\":\"1618127390265466880\",\"text\":\"hi\"}}",
+            "result": "Post tweeted with ID: 1618127390265466880 and text: hi"
+        },
+        {
+            "user_input": "Post a Tweet",
+            "step": "Post the user's Tweet on Twitter (API)",
+            "response": "{\"data\":{\"edit_history_tweet_ids\":[\"1620691656906539009\"],\"id\":\"1620691656906539009\",\"text\":\"hi world\"}}",
+            "result": "Post tweeted with ID: 1620691656906539009 and text: \"hi world\""
+        }
+    ],
+    "get_next_substep_context": []
+}

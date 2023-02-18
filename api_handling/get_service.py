@@ -4,6 +4,7 @@ from openai import Completion
 
 from models import CURIE
 from prompts.get_service import get_service_prompt
+from train.train_from import train_from
 from models import log_cost
 
 
@@ -23,7 +24,8 @@ def get_service(user_input, step, cost):
     available_services = str(available_services).replace("'", '')
 
     # Get an AI prompt that asks for the service to use
-    prompt = get_service_prompt(user_input, step, available_services)
+    prompt = get_service_prompt(
+        user_input=user_input, step=step, available_services=available_services)
 
     if show_prompt:
         print('> Prompt: \n\n' + prompt + '\n')
@@ -38,7 +40,12 @@ def get_service(user_input, step, cost):
 
     log_cost(completion, cost)
 
-    return completion.choices[0].text.strip()
+    result = completion.choices[0].text.strip()
+
+    result = train_from(result, "get_service",
+                        user_input=user_input, step=step)
+
+    return result
 
 
 def get_available_services():

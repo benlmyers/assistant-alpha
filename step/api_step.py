@@ -1,5 +1,3 @@
-from openai.api_resources.completion import Completion
-
 from api_handling.get_operations import get_operations
 from api_handling.get_parameters import get_parameters
 from api_handling.get_body import get_body
@@ -10,8 +8,7 @@ from api_handling.get_server import get_server
 from api_handling.send_request import send_request
 from api_handling.get_next_step_context import get_next_step_context
 from api_handling.get_next_substep_context import get_next_substep_context
-from models import DAVINCI
-from prompts.get_request import get_request_prompt
+from util.get_endpoint_method import get_endpoint_method
 
 
 def api_step(user_input, step, all_steps, context_data, cost):
@@ -31,7 +28,7 @@ def api_step(user_input, step, all_steps, context_data, cost):
     # Get the operations needed for the API request.
     # For example, "GET /2/compliance/jobs (goal)"
     raw_operations = get_operations(
-        user_input, step, all_steps, spec_source, spec_data, cost)
+        user_input, step, all_steps, spec_source, spec_data, service, cost)
 
     server = get_server(spec_source, spec_data)
 
@@ -40,11 +37,9 @@ def api_step(user_input, step, all_steps, context_data, cost):
     raw_operations = raw_operations.split('\n')
 
     for i, raw_operation in enumerate(raw_operations):
-        # Extract the endpoint and method from the above operation string.
-        # For example, "/2/compliance/jobs"
-        endpoint = raw_operation.split(' ')[1].strip()
-        # For example, "get"
-        method = raw_operation.split(' ')[0].strip().lower()
+
+        endpoint, method = get_endpoint_method(raw_operation)
+
         # Get text inside ( )
         substep = raw_operation.split('(')[1].split(')')[0].strip()
 
@@ -67,7 +62,7 @@ def api_step(user_input, step, all_steps, context_data, cost):
 
             # Get the parameters data for the request.
             body_data = get_body(
-                user_input, detailed_step, _context_data, operation_data, cost)
+                user_input, detailed_step, _context_data, cost, service, raw_operation)
 
         print('> Getting authorization...')
 
