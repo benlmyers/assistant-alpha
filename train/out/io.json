@@ -1,18 +1,18 @@
 [
     {
-        "prompt": "\nClassify the input/output items into one of the following categories:\n\nText Input, Geolocation, Time\n\nGet today's date\nCategory: Time\n\nGet the user's current location\nCategory: Geolocation\n\nGet a paragraph input\nCategory: Text Input\n\nSearch Tweets\nCategory: Text Input\n\nGet the user's friend's Instagarm handle\nCategory: Text Input\n\nGet the tweet content from the user (IO)\nCategory:",
+        "prompt": "Classify the input/output items into one of the following categories:\n\nText Input, Geolocation, Time\n\nGet today's date\nCategory: Time\n\nGet the user's current location\nCategory: Geolocation\n\nGet a paragraph input\nCategory: Text Input\n\nSearch Tweets\nCategory: Text Input\n\nGet the user's friend's Instagarm handle\nCategory: Text Input\n\nGet the tweet content from the user (IO)\nCategory:",
         "completion": "Text Input"
     },
     {
-        "prompt": "\nClassify the input/output items into one of the following categories:\n\nText Input, Geolocation, Time\n\nGet today's date\nCategory: Time\n\nGet the user's current location\nCategory: Geolocation\n\nGet a paragraph input\nCategory: Text Input\n\nSearch Tweets\nCategory: Text Input\n\nGet the user's friend's Instagarm handle\nCategory: Text Input\n\nGet the user's Tweet (IO)\nCategory:",
+        "prompt": "Classify the input/output items into one of the following categories:\n\nText Input, Geolocation, Time\n\nGet today's date\nCategory: Time\n\nGet the user's current location\nCategory: Geolocation\n\nGet a paragraph input\nCategory: Text Input\n\nSearch Tweets\nCategory: Text Input\n\nGet the user's friend's Instagarm handle\nCategory: Text Input\n\nGet the user's Tweet (IO)\nCategory:",
         "completion": "Text Input"
     },
     {
-        "prompt": "\nClassify the input/output items into one of the following categories:\n\nText Input, Geolocation, Time\n\nGet today's date\nCategory: Time\n\nGet the user's current location\nCategory: Geolocation\n\nGet a paragraph input\nCategory: Text Input\n\nSearch Tweets\nCategory: Text Input\n\nGet the user's friend's Instagarm handle\nCategory: Text Input\n\nGet a sentence as input (IO)\nCategory:",
+        "prompt": "Classify the input/output items into one of the following categories:\n\nText Input, Geolocation, Time\n\nGet today's date\nCategory: Time\n\nGet the user's current location\nCategory: Geolocation\n\nGet a paragraph input\nCategory: Text Input\n\nSearch Tweets\nCategory: Text Input\n\nGet the user's friend's Instagarm handle\nCategory: Text Input\n\nGet a sentence as input (IO)\nCategory:",
         "completion": "Text Input"
     },
     {
-        "prompt": "\nClassify the input/output items into one of the following categories:\n\nText Input, Geolocation, Time\n\nGet today's date\nCategory: Time\n\nGet the user's current location\nCategory: Geolocation\n\nGet a paragraph input\nCategory: Text Input\n\nSearch Tweets\nCategory: Text Input\n\nGet the user's friend's Instagarm handle\nCategory: Text Input\n\nGet the text from the user (IO)\nCategory:",
+        "prompt": "Classify the input/output items into one of the following categories:\n\nText Input, Geolocation, Time\n\nGet today's date\nCategory: Time\n\nGet the user's current location\nCategory: Geolocation\n\nGet a paragraph input\nCategory: Text Input\n\nSearch Tweets\nCategory: Text Input\n\nGet the user's friend's Instagarm handle\nCategory: Text Input\n\nGet the text from the user (IO)\nCategory:",
         "completion": "Text Input"
     }
 ]

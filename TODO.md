@@ -6,6 +6,8 @@ https://platform.openai.com/docs/api-reference/files/retrieve-content
     - [ ] 
 
 - [ ] training_elements.json -> training_data.jsonl
+    - [x] Build tranining conversion script
+    - [ ] Ensure accuracy
 
 - [ ] Interface functionality
     - [ ] Update training_data
@@ -13,8 +15,9 @@ https://platform.openai.com/docs/api-reference/files/retrieve-content
     - [ ] Train all models
 
 List of models:
+- ai_step
 - subdivision
-- io
+- io_step
 - get_service
 - get_operations
 - get_parameters
