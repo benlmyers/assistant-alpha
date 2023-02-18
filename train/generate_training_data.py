@@ -7,6 +7,8 @@ from prompts.get_body import get_body_prompt
 from prompts.get_next_step_context import get_next_step_context_prompt
 from prompts.get_next_substep_context import get_next_substep_context_prompt
 from prompts.get_service import get_service_prompt
+from api_handling.get_service import get_available_services
+from api_handling.get_body import get_body_spec_data
 
 
 def generate_training_data():
@@ -38,7 +40,7 @@ def generate_training_data():
             try:
                 prompt = get_prompt(process, args)
             except Exception as e:
-                print('[!] Error for ' + process + ': ' + str(e))
+                print('[!] Missing key for ' + process + ': ' + str(e))
                 continue
             training_pairs.append({"prompt": prompt, "completion": completion})
 
@@ -59,13 +61,16 @@ def get_prompt(process, args):
     elif process == 'io':
         return io_step_prompt(**args)
     elif process == 'get_service':
-        return get_service_prompt(**args, user_input="Testing")
+        available_services = get_available_services()
+        return get_service_prompt(**args, available_services=available_services)
     elif process == 'get_operations':
         return get_operations_prompt(**args)
     elif process == 'get_parameters':
         return get_parameters_prompt(**args)
     elif process == 'get_body':
-        return get_body_prompt(**args)
+        body_data = get_body_spec_data(args['service'], args['operation'])
+        del args['operation']
+        return get_body_prompt(**args, body_data=body_data)
     elif process == 'get_next_step_context':
         return get_next_step_context_prompt(**args)
     elif process == 'get_next_substep_context':

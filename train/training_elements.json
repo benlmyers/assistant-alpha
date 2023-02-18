@@ -37,10 +37,12 @@
     ],
     "get_service": [
         {
+            "user_input": "Post a Tweet",
             "step": "Post the user's Tweet on Twitter (API)",
             "result": "twitter"
         },
         {
+            "user_input": "Post a Tweet",
             "step": "Post the tweet (API)",
             "result": "twitter"
         }

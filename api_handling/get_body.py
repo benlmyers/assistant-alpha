@@ -6,9 +6,11 @@ from models import DAVINCI
 from models import log_cost
 from prompts.get_body import get_body_prompt
 from train.train_from import train_from
+from util.get_endpoint_method import get_endpoint_method
+from api_handling.get_spec import get_spec
 
 
-def get_body(user_input, step, context_data, operation_data, cost, service, operation):
+def get_body(user_input, step, context_data, cost, service, operation):
 
     # Should the prompt that grabs the endpoint be printed to the console?
     # Set to True if you need to debug incorrect endpoints being generated.
@@ -19,7 +21,7 @@ def get_body(user_input, step, context_data, operation_data, cost, service, oper
     # The parameters JSON data may not be longer than 256 tokens (words and characters).
     max_tokens = 256
 
-    body_data = operation_data["requestBody"]
+    body_data = get_body_spec_data(service, operation)
 
     if body_data == []:
         return []
@@ -51,3 +53,14 @@ def get_body(user_input, step, context_data, operation_data, cost, service, oper
     result_data = json.loads(result)
 
     return result_data
+
+
+def get_body_spec_data(service, operation):
+
+    spec_source, spec_data = get_spec(service)
+
+    endpoint, method = get_endpoint_method(operation)
+
+    operation_data = spec_data['paths'][endpoint][method.lower()]
+
+    return operation_data['requestBody']
