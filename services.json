@@ -1,11 +1,10 @@
 [
     {
         "name": "twitter",
-        "specProvider": "openapi",
-        "auth": [
-            "twitter.apiKey",
-            "twitter.apiSecret",
-            "twitter.bearerToken"
-        ]
+        "specProvider": "openapi"
+    },
+    {
+        "name": "gmail",
+        "specProvider": "openapi"
     }
 ]

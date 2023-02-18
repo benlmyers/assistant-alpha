@@ -66,7 +66,9 @@ def get_endpoints_openapi(data):
         endpoint.path = path
         endpoint.operations = []
         for method, method_data in path_data.items():
-            if method_data['summary'] != None:
+            if not ('summary' in method_data or 'description' in method_data):
+                continue
+            if 'summary' in method_data:
                 method_str = '(' + method.upper() + ') ' + \
                     method_data['summary']
             else:
