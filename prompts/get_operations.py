@@ -1,6 +1,17 @@
 def get_operations_prompt(**kwargs):
 
-    return f"""The following is a list of API operations:
+    return example(**kwargs) + f"""Task: {kwargs['user_input']}
+All Steps: {kwargs['all_steps']}
+Step: {kwargs['step']}
+Operations:
+
+"""
+
+
+def example(**kwargs):
+
+    if kwargs['pretrain'] and kwargs['pretrain'] == True:
+        return f"""The following is a list of API operations:
 {kwargs['endpoints_str']}
 
 For the Task and Step, list all operations to use from the above list.
@@ -22,9 +33,6 @@ Operations:
 
 GET /2/users/me (Obtain user data)
 
-Task: {kwargs['user_input']}
-All Steps: {kwargs['all_steps']}
-Step: {kwargs['step']}
-Operations:
-
 """
+
+    return ''

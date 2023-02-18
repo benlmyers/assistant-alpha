@@ -60,26 +60,26 @@ def generate_training_data():
 
 def get_prompt(process, args):
     if process == 'subdivision':
-        return subdivision_prompt(**args)
+        return subdivision_prompt(**args, pretrain=True)
     elif process == 'io':
-        return io_step_prompt(**args)
+        return io_step_prompt(**args, pretrain=True)
     elif process == 'get_service':
         available_services = get_available_services()
-        return get_service_prompt(**args, available_services=available_services)
+        return get_service_prompt(**args, available_services=available_services, pretrain=True)
     elif process == 'get_operations':
         spec_data = get_spec(args['service'])
         endpoints = get_endpoints_openapi(spec_data)
         endpoints_str = get_endpoints_str(endpoints)
-        return get_operations_prompt(**args, endpoints_str=endpoints_str)
+        return get_operations_prompt(**args, endpoints_str=endpoints_str, pretrain=True)
     elif process == 'get_parameters':
-        return get_parameters_prompt(**args)
+        return get_parameters_prompt(**args, pretrain=True)
     elif process == 'get_body':
         body_data = get_body_spec_data(args['service'], args['operation'])
         del args['operation']
-        return get_body_prompt(**args, body_data=body_data)
+        return get_body_prompt(**args, body_data=body_data, pretrain=True)
     elif process == 'get_next_step_context':
-        return get_next_step_context_prompt(**args)
+        return get_next_step_context_prompt(**args, pretrain=True)
     elif process == 'get_next_substep_context':
-        return get_next_substep_context_prompt(**args)
+        return get_next_substep_context_prompt(**args, pretrain=True)
     else:
         return ''

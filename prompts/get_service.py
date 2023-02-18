@@ -1,6 +1,19 @@
 def get_service_prompt(**kwargs):
 
-    return f"""The following is a step for a Task you (the Assistant) could complete in a single API call.
+    return example(**kwargs) + f"""Task: {kwargs['user_input']}
+Step to Focus on: {kwargs['step']}
+
+The following is a list of services available to use:
+{kwargs['available_services']}
+
+Service to use for this step:
+"""
+
+
+def example(**kwargs):
+
+    if kwargs['pretrain'] and kwargs['pretrain'] == True:
+        return f"""The following is a step for a Task you (the Assistant) could complete in a single API call.
 
 Task: Tweet something for me
 Step to Focus on: Post the user's message on Twitter (API)
@@ -22,11 +35,6 @@ Service to use for this step:
 uber
 
 
-Task: {kwargs['user_input']}
-Step to Focus on: {kwargs['step']}
-
-The following is a list of services available to use:
-{kwargs['available_services']}
-
-Service to use for this step:
 """
+
+    return ''

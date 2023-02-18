@@ -1,5 +1,14 @@
 def subdivision_prompt(**kwargs):
-    return f"""The following are user requests simplified into a list of tasks you (the Assistant) could complete using API's or text completions.
+    return example(**kwargs) + f"""User Request: {kwargs['user_input']}
+
+Response:
+"""
+
+
+def example(**kwargs):
+
+    if kwargs['pretrain'] and kwargs['pretrain'] == True:
+        return f"""The following are user requests simplified into a list of tasks you (the Assistant) could complete using API's or text completions.
 If any API calls are needed for each Task, add "(API)" at the end of the task. Use "(API)" only when needed. Each task should pertain to a single Service, like Google or Twitter, and not multiple.
 Else, if additional data or input is needed, add "(IO)" at the end of the task. Examples for IO include user input, location, calendar events, etc. IO should only be used when absolutely necessary.
 Otherwise, if you can handle the task with no API call needed, using the context of the previous steps, add "(AI)" at the end of the task.
@@ -37,19 +46,6 @@ Response:
 Get the user's friend's Twitter handle (IO),
 Send a DM to the user's friend on Twitter (API)
 
-User Request: {kwargs['user_input']}
-
-Response:
 """
 
-
-def subdivision_prompt_train(**kwargs):
-    return f"""The following are user requests simplified into a list of tasks you (the Assistant) could complete using API's or text completions.
-If any API calls are needed for each Task, add "(API)" at the end of the task. Use "(API)" only when needed. Each task should pertain to a single Service, like Google or Twitter, and not multiple.
-Else, if additional data or input is needed, add "(IO)" at the end of the task. Examples for IO include user input, location, calendar events, etc. IO should only be used when absolutely necessary.
-Otherwise, if you can handle the task with no API call needed, using the context of the previous steps, add "(AI)" at the end of the task.
-
-User Request: {kwargs.user_input}
-
-Response:
-"""
+    return ''

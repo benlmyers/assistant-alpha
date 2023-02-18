@@ -1,5 +1,5 @@
 def ai_step_prompt(**kwargs):
-    return f"""Task: {kwargs['user_input']}
+    return example(**kwargs) + f"""Task: {kwargs['user_input']}
 Step to Focus on: {kwargs['step']}
 Relevant Context Data:
 {kwargs['context_data']}

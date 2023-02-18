@@ -1,5 +1,21 @@
 def get_parameters_prompt(**kwargs):
 
+    if kwargs['pretrain'] and kwargs['pretrain'] == True:
+
+        return f"""Task: {kwargs['user_input']}
+Step: {kwargs['step']}
+
+Context Data:
+
+{kwargs['context_data']}
+
+Parameters Specification:
+
+{kwargs['parameters_data']}
+
+Parameters Data Result:
+{{\""""
+
     return f"""The following is a Step for a Task you (the Assistant) could complete in a single API call.
 
 Task: {kwargs['user_input']}
