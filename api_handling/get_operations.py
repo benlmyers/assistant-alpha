@@ -24,15 +24,9 @@ def get_operations(user_input, step, all_steps, spec_source, spec_data, service,
     else:
         print('[x] Specification source not supported')
 
+    endpoints_str = get_endpoints_str(endpoints)
+
     print('> Choosing the best endpoint to use')
-
-    endpoints_str = ''
-
-    # Create a string listing every endpoint, their methods and summaries.
-    # This string will be fed into the prompt for the AI.
-    for endpoint in endpoints:
-        for operation in endpoint.operations:
-            endpoints_str = endpoints_str + '\n' + operation
 
     # Get an AI prompt asking to choose an endpoint and method to use.
     prompt = get_operations_prompt(
@@ -82,3 +76,16 @@ def get_endpoints_openapi(data):
         endpoints.append(endpoint)
 
     return endpoints
+
+
+def get_endpoints_str(endpoints):
+
+    endpoints_str = ''
+
+    # Create a string listing every endpoint, their methods and summaries.
+    # This string will be fed into the prompt for the AI.
+    for endpoint in endpoints:
+        for operation in endpoint.operations:
+            endpoints_str = endpoints_str + '\n' + operation
+
+    return endpoints_str

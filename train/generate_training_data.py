@@ -9,6 +9,9 @@ from prompts.get_next_substep_context import get_next_substep_context_prompt
 from prompts.get_service import get_service_prompt
 from api_handling.get_service import get_available_services
 from api_handling.get_body import get_body_spec_data
+from api_handling.get_operations import get_endpoints_openapi
+from api_handling.get_spec import get_spec
+from api_handling.get_operations import get_endpoints_str
 
 
 def generate_training_data():
@@ -46,7 +49,7 @@ def generate_training_data():
 
         # Write to file /train/out/<process>.json
         f = open(f'train/out/{process}.json', 'w')
-        f.write(json.dumps(training_pairs))
+        f.write(json.dumps(training_pairs, indent=4))
         f.close()
 
         print('> Wrote ' + str(len(training_pairs)) +
@@ -64,7 +67,10 @@ def get_prompt(process, args):
         available_services = get_available_services()
         return get_service_prompt(**args, available_services=available_services)
     elif process == 'get_operations':
-        return get_operations_prompt(**args)
+        spec_data = get_spec(args['service'])
+        endpoints = get_endpoints_openapi(spec_data)
+        endpoints_str = get_endpoints_str(endpoints)
+        return get_operations_prompt(**args, endpoints_str=endpoints_str)
     elif process == 'get_parameters':
         return get_parameters_prompt(**args)
     elif process == 'get_body':
