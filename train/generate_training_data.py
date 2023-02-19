@@ -67,7 +67,7 @@ def get_prompt(process, args):
         available_services = get_available_services()
         return get_service_prompt(**args, available_services=available_services, pretrain=True)
     elif process == 'get_operations':
-        spec_data = get_spec(args['service'])
+        spec_source, spec_data = get_spec(args['service'])
         endpoints = get_endpoints_openapi(spec_data)
         endpoints_str = get_endpoints_str(endpoints)
         return get_operations_prompt(**args, endpoints_str=endpoints_str, pretrain=True)

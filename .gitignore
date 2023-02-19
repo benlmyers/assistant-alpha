@@ -2,7 +2,9 @@
 
 /sec.py
 api_secrets.json
-out/
+
+# Match any file under train/out
+/train/out/*
 
 # PYTHON TEMPLATE GITIGNORE
 
