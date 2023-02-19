@@ -42,7 +42,7 @@ def generate_training_data():
             args = elements
             try:
                 prompt = get_prompt(process, args)
-            except Exception as e:
+            except KeyError as e:
                 print('[!] Missing key for ' + process + ': ' + str(e))
                 continue
             training_pairs.append({"prompt": prompt, "completion": completion})
