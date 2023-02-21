@@ -31,7 +31,7 @@ def generate_training_data():
     all_elements = json.loads(f.read())
     f.close()
 
-    print('> Generating training data...')
+    print('[TRAIN] Beginning training data generation.')
 
     for process in execute_processes:
         training_pairs = []
@@ -48,7 +48,7 @@ def generate_training_data():
             training_pairs.append({"prompt": prompt, "completion": completion})
 
         # Write to file /train/out/<process>.json
-        f = open(f'train/out/{process}.json', 'w')
+        f = open(f'train/out/{process}.jsonl', 'w')
         f.write(json.dumps(training_pairs, indent=4))
         f.close()
 
