@@ -24,10 +24,14 @@ def fine_tune():
 
         print('> Uploading ' + process + '.jsonl to OpenAI...')
 
-        upload_response = openai.File.create(
-            file=open(f'train/out/{process}.jsonl', "rb"),
-            purpose='fine-tune'
-        )
+        try:
+            upload_response = openai.File.create(
+                file=open(f'train/out/{process}.jsonl', "rb"),
+                purpose='fine-tune'
+            )
+        except openai.InvalidRequestError as e:
+            print('[!] Error uploading ' +
+                  process + '.jsonl: ' + str(e))
 
         _id = upload_response['id']
         date = upload_response['created_at']
