@@ -19,8 +19,15 @@ def fine_tune():
 
     f = open('train/pretrained_models.json')
     pretrained_models_data = json.loads(f.read())
+    f.close()
 
     for process in execute_processes:
+
+        data = open(f'train/out/{process}.jsonl').readlines()
+
+        if len(data) == 0:
+            print('[!] No data for ' + process + '. Skipping.')
+            continue
 
         print('> Uploading ' + process + '.jsonl to OpenAI...')
 
@@ -43,6 +50,8 @@ def fine_tune():
 
         pretrained_models_data['models'][process]['file_id'] = _id
         pretrained_models_data['models'][process]['date'] = date
+        pretrained_models_data['models'][process]['pairs'] = len(data)
 
-    f.write(json.dumps(pretrained_models_data, indent=4))
-    f.close()
+    with open('train/pretrained_models.json', 'w') as out:
+        out.write(json.dumps(pretrained_models_data, indent=4))
+        out.close()
