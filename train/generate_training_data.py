@@ -49,7 +49,11 @@ def generate_training_data():
 
         # Write to file /train/out/<process>.json
         f = open(f'train/out/{process}.jsonl', 'w')
-        f.write(json.dumps(training_pairs, indent=4))
+
+        for data in training_pairs:
+            json.dump(data, f)
+            f.write('\n')
+
         f.close()
 
         print('> Wrote ' + str(len(training_pairs)) +

@@ -32,7 +32,7 @@ def fine_tune():
         _id = upload_response['id']
         date = upload_response['created_at']
 
-        print('> File ' + process + '.jsonl uploaded with id ' + id + '.')
+        print('> File ' + process + '.jsonl uploaded with id ' + _id + '.')
 
         if process not in pretrained_models_data['models']:
             pretrained_models_data['models'][process] = {}
