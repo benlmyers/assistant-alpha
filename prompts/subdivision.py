@@ -7,7 +7,7 @@ Response:
 
 def example(**kwargs):
 
-    if kwargs['pretrain'] and kwargs['pretrain'] == True:
+    if 'pretrain' in kwargs and kwargs['pretrain']:
         return f"""The following are user requests simplified into a list of tasks you (the Assistant) could complete using API's or text completions.
 If any API calls are needed for each Task, add "(API)" at the end of the task. Use "(API)" only when needed. Each task should pertain to a single Service, like Google or Twitter, and not multiple.
 Else, if additional data or input is needed, add "(IO)" at the end of the task. Examples for IO include user input, location, calendar events, etc. IO should only be used when absolutely necessary.

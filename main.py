@@ -10,13 +10,13 @@ openai.api_key = sec.OPENAI_API_KEY
 openai.organization = sec.OPENAI_ORGANIZATION_ID
 
 # 1. Should the Assistant collect training reinforcements from the user?
-TRAINING_MODE = True
+COLLECT_TRAINING = True
 # 2. Should training run? That is, should the Training Elements be converted to training data?
-RUN_TRAINING = True
+CONVERT_TRAINING = False
 # 3. Should fine tuning run? That is, should OpenAI's models be fine-tuned to our training data?
-RUN_FINE_TUNING = True
+RUN_FINE_TUNING = False
 
-if RUN_TRAINING:
+if CONVERT_TRAINING:
     from train.generate_training_data import generate_training_data
     generate_training_data()
     print('')

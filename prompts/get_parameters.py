@@ -1,6 +1,6 @@
 def get_parameters_prompt(**kwargs):
 
-    if kwargs['pretrain'] and kwargs['pretrain'] == True:
+    if 'pretrain' in kwargs and kwargs['pretrain'] == True:
 
         return f"""Task: {kwargs['user_input']}
 Step: {kwargs['step']}

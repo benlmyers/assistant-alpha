@@ -10,7 +10,7 @@ Operations:
 
 def example(**kwargs):
 
-    if kwargs['pretrain'] and kwargs['pretrain'] == True:
+    if 'pretrain' in kwargs and kwargs['pretrain'] == True:
         return f"""The following is a list of API operations:
 {kwargs['endpoints_str']}
 
