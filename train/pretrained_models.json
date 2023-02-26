@@ -1,0 +1,52 @@
+{
+    "models": {
+        "subdivision": {
+            "file_id": "file-hDcOIAiaC4gDkAUnEDRaSP4q",
+            "date": 1677373073,
+            "pairs": 4,
+            "base": "davinci"
+        },
+        "io": {
+            "file_id": "file-ik7UwVTwOmE9xIXJvebdnE1e",
+            "date": 1677373074,
+            "pairs": 4,
+            "base": "babbage"
+        },
+        "get_service": {
+            "file_id": "file-M5SoeK82UkNTy92Vm9UW7av1",
+            "date": 1677373074,
+            "pairs": 2,
+            "base": "curie"
+        },
+        "get_operations": {
+            "file_id": "file-Biv52s22tyd9QBxUXsdfWOiC",
+            "date": 1677061232,
+            "pairs": 0,
+            "base": "curie"
+        },
+        "get_parameters": {
+            "file_id": "file-Biv52s22tyd9QBxUXsdfWOiC",
+            "date": 1677061232,
+            "pairs": 0,
+            "base": "davinci"
+        },
+        "get_body": {
+            "file_id": "file-PDgvfnHs9w6mjPnV4upUmmNW",
+            "date": 1677373075,
+            "pairs": 1,
+            "base": "davinci"
+        },
+        "get_next_step_context": {
+            "file_id": "file-mMN4eQwkLaCh7hrN16RG1z1m",
+            "date": 1677373076,
+            "pairs": 2,
+            "base": "davinci"
+        },
+        "get_next_substep_context": {
+            "file_id": "file-Bo8DcdZSXbfsGQ1DLIFURseW",
+            "date": 1677061234,
+            "pairs": 0,
+            "base": "davinci"
+        }
+    }
+}
