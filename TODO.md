@@ -3,7 +3,8 @@
 
 - [ ] OpenAI fine-tuned model interface
 https://platform.openai.com/docs/api-reference/files/retrieve-content
-    - [ ] 
+    - [x] Train models
+    - [ ] Re-train models 
 
 - [x] training_elements.json -> training_data.jsonl
     - [x] Build tranining conversion script
