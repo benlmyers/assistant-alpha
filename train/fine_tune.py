@@ -15,12 +15,13 @@ def fine_tune():
         'get_next_substep_context'
     ]
 
-    print('[TRAIN] Beginning fine tuning.')
+    print('[TRAIN] Uploading training files.')
 
     f = open('train/pretrained_models.json')
     pretrained_models_data = json.loads(f.read())
     f.close()
 
+    # Upload the training files to OpenAI
     for process in execute_processes:
 
         data = open(f'train/out/{process}.jsonl').readlines()
@@ -55,3 +56,18 @@ def fine_tune():
     with open('train/pretrained_models.json', 'w') as out:
         out.write(json.dumps(pretrained_models_data, indent=4))
         out.close()
+
+    print('[TRAIN] Fine-tuning.')
+
+    # Perform the fine-tuning
+    for process in execute_processes:
+
+        file_id = pretrained_models_data['models'][process]['file_id']
+        base = pretrained_models_data['models'][process]['base']
+
+        print('> Fine-tuning ' + process + ' with base model ' + base + '...')
+
+        openai.FineTune.create(training_file=file_id,
+                               model=base, suffix=process)
+
+        print('> Fine-tuning ' + process + ' completed.')
