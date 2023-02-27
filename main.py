@@ -23,7 +23,7 @@ if user_input.lower() == 'm':
         print('=======')
         print('[T] Training Mode (' +
               ('on' if settings['training_mode'] else 'off') + ')')
-        print('[C] Create Training Data')
+        print('[G] Generate Training Data')
         print('[F] Fine-Tune Models')
         print('[Enter] Exit Menu')
         print('=======')
@@ -37,7 +37,7 @@ if user_input.lower() == 'm':
                 out.write(json.dumps(settings, indent=4))
                 out.close()
             print('')
-        if user_input.lower() == 'c':
+        if user_input.lower() == 'g':
             from train.generate_training_data import generate_training_data
             generate_training_data()
             print('')
