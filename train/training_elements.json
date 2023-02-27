@@ -83,6 +83,14 @@
             "service": "twitter",
             "operation": "POST /2/tweets (Post a Tweet)",
             "result": "{\"text\":\"Hello\"}"
+        },
+        {
+            "user_input": "Post a Tweet",
+            "step": "Post the user's Tweet on Twitter (API) - Post a Tweet",
+            "context_data": "Hello world!",
+            "service": "twitter",
+            "operation": "POST /2/tweets (Post a Tweet)",
+            "result": "{\"text\":\"Hello world!\"}"
         }
     ],
     "get_next_step_context": [
@@ -103,6 +111,12 @@
             "step": "Post the user's Tweet on Twitter (API)",
             "response": "{\"data\":{\"edit_history_tweet_ids\":[\"1630096101847220224\"],\"id\":\"1630096101847220224\",\"text\":\"Hello\"}}",
             "result": "Post tweeted with ID: 1630096101847220224 and text: Hello"
+        },
+        {
+            "user_input": "Post a Tweet",
+            "step": "Post the user's Tweet on Twitter (API)",
+            "response": "{\"data\":{\"edit_history_tweet_ids\":[\"1630130305922367488\"],\"id\":\"1630130305922367488\",\"text\":\"Hello world!\"}}",
+            "result": "Post tweeted with ID: 1630130305922367488 and text: \"Hello world!\""
         }
     ],
     "get_next_substep_context": []

@@ -1,21 +1,32 @@
 import openai
 import json
 
+execute_processes = [
+    'subdivision',
+    'io',
+    'get_service',
+    'get_operations',
+    'get_parameters',
+    'get_body',
+    'get_next_step_context',
+    'get_next_substep_context'
+]
+
+retrain_processes = []
+
+process_complexity = {
+    'subdivision': 'davinci',
+    'io': 'babbage',
+    'get_service': 'curie',
+    'get_operations': 'curie',
+    'get_parameters': 'davinci',
+    'get_body': 'davinci',
+    'get_next_step_context': 'davinci',
+    'get_next_substep_context': 'davinci'
+}
+
 
 def fine_tune():
-
-    execute_processes = [
-        'subdivision',
-        'io',
-        'get_service',
-        'get_operations',
-        'get_parameters',
-        'get_body',
-        'get_next_step_context',
-        'get_next_substep_context'
-    ]
-
-    retrain_processes = []
 
     f = open('train/pretrained_models.json')
     data = json.loads(f.read())
@@ -69,6 +80,7 @@ def upload_file(process, data, temp=False):
 
     data['models'][process]['file_id'] = _id
     data['models'][process]['date'] = date
+    data['models'][process]['base'] = process_complexity[process]
 
 
 def tune_from_pt(process, data, training):
