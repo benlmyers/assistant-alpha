@@ -16,6 +16,8 @@ RUN_TRAINING = True
 # 3. Should fine tuning run? That is, should OpenAI's models be fine-tuned to our training data?
 RUN_FINE_TUNING = True
 
+###
+
 if RUN_TRAINING:
     from train.generate_training_data import generate_training_data
     generate_training_data()
@@ -26,6 +28,7 @@ if RUN_FINE_TUNING:
     fine_tune()
     print('')
 
+# An array to keep a running total of the cost of the Assistant's actions.
 cost = []
 
 user_input = input('Enter a command: ')
@@ -36,9 +39,10 @@ steps = subdivision(user_input, cost)
 count = 0
 total_steps = len(steps)
 
+# Context data keeps track of the data that the Assistant has collected so far.
 context_data = '[No data]'
 
-
+# Execute the steps.
 for step in steps:
     count += 1
     print(f'Step {count} of {total_steps}: {step}')
@@ -56,9 +60,9 @@ for step in steps:
 
 print('> Done.')
 
+# Aggregate the total cost.
 total_tokens = 0
 total_cost = 0.0
-
 for item in cost:
     total_tokens += item[0]
     total_cost += item[1]

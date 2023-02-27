@@ -3,6 +3,7 @@ BABBAGE = "text-babbage-001"
 CURIE = "text-curie-001"
 DAVINCI = "text-davinci-003"
 
+# The cost, in USD, of using 1,000 tokens for each model.
 ADA_UNIT_COST = 0.0004
 BABBAGE_UNIT_COST = 0.0005
 CURIE_UNIT_COST = 0.0020

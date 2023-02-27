@@ -1,22 +1,20 @@
-**Active**
-> Example seperation from prompts
-
-- [ ] OpenAI fine-tuned model interface
+- [x] OpenAI fine-tuned model interface
 https://platform.openai.com/docs/api-reference/files/retrieve-content
     - [x] Train models
-    - [ ] Re-train models 
+    - [x] Re-train models 
 
 - [x] training_elements.json -> training_data.jsonl
     - [x] Build tranining conversion script
-    - [ ] Ensure accuracy
 
-- [ ] Interface functionality
-    - [ ] Update training_data
-    - [ ] Train *x* model
-    - [ ] Train all models
+- [ ] Future objectives
+    - [ ] Training validation -> Training metrics
+    - [ ] Interface functionality
+        - [ ] Update training_data
+        - [ ] Train *x* model
+        - [ ] Train all models
 
 List of models:
-- ai_step
+- ai_step **(not trained)**
 - subdivision
 - io_step
 - get_service

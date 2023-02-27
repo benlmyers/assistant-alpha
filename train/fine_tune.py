@@ -25,6 +25,9 @@ def fine_tune():
 
     for process in execute_processes:
 
+        if process not in data['models']:
+            data['models'][process] = {}
+
         training = open(f'train/out/{process}.jsonl').readlines()
 
         if len(training) == 0:
@@ -35,33 +38,34 @@ def fine_tune():
         elif 'model_id' in data['models'][process]:
             tune_from_pt(process, data, training)
         else:
-            tune_from_base(process, data)
+            tune_from_base(process, data, training)
 
     with open('train/pretrained_models.json', 'w') as out:
         out.write(json.dumps(data, indent=4))
         out.close()
 
 
-def upload_file(process, data):
+def upload_file(process, data, temp=False):
 
-    print('> Uploading ' + process + '.jsonl to OpenAI...')
+    process_name = process
+    if temp:
+        process_name = process + '_temp'
+
+    print('> Uploading ' + process_name + '.jsonl to OpenAI...')
 
     try:
         upload_response = openai.File.create(
-            file=open(f'train/out/{process}.jsonl', "rb"),
+            file=open(f'train/out/{process_name}.jsonl', "rb"),
             purpose='fine-tune'
         )
     except openai.InvalidRequestError as e:
         print('[!] Error uploading ' +
-              process + '.jsonl: ' + str(e))
+              process_name + '.jsonl: ' + str(e))
 
     _id = upload_response['id']
     date = upload_response['created_at']
 
-    print('> File ' + process + '.jsonl uploaded with id ' + _id + '.')
-
-    if process not in data['models']:
-        data['models'][process] = {}
+    print('> File ' + process_name + '.jsonl uploaded with id ' + _id + '.')
 
     data['models'][process]['file_id'] = _id
     data['models'][process]['date'] = date
@@ -80,24 +84,27 @@ def tune_from_pt(process, data, training):
 
     new_training = training[existing_pairs:]
 
-    print('> Uploading ' + process + '_temp.jsonl to OpenAI...')
-
-    out = open(f'train/out/{process}_temp.jsonl', 'wrb')
+    out = open(f'train/out/{process}_temp.jsonl', 'w')
     out.write(''.join(new_training))
     out.close()
 
-    try:
-        upload_response = openai.File.create(
-            file=open(f'train/out/{process}_temp.jsonl', "rb"),
-            purpose='fine-tune',
-            model=data['models'][process]['model_id']
-        )
-    except openai.InvalidRequestError as e:
-        print('[!] Error uploading ' +
-              process + '.jsonl: ' + str(e))
-        return
+    upload_file(process, data, temp=True)
 
-    print('> File ' + process + '.jsonl uploaded with id ' + _id + '.')
+    pt = data['models'][process]['model_id']
+    base = data['models'][process]['base']
+    file_id = data['models'][process]['file_id']
+
+    print('> Refining ' + process + ' with pre-tuned model ' +
+          pt + ' (base source: ' + base + ')...')
+
+    result = openai.FineTune.create(training_file=file_id,
+                                    model=pt, suffix=process)
+
+    print('> Fine-tuning ' + process + ' completed.')
+
+    data['models'][process]['model_id'] = result['id']
+    data['models'][process]['pairs'] = data['models'][process]['pairs'] + \
+        len(training)
 
 
 def tune_from_base(process, data, training):
@@ -115,5 +122,4 @@ def tune_from_base(process, data, training):
     print('> Fine-tuning ' + process + ' completed.')
 
     data['models'][process]['model_id'] = result['id']
-
     data['models'][process]['pairs'] = len(training)
