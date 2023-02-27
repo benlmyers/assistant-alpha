@@ -11,7 +11,7 @@ Correct completion data result:
 
 def example(**kwargs):
 
-    if kwargs['pretrain'] and kwargs['pretrain'] == True:
+    if 'pretrain' not in kwargs or not kwargs['pretrain']:
         return f"""The following is a step for a Task you (the Assistant) could complete in a single AI text completion: this one.
 
 """

@@ -24,13 +24,11 @@
         "get_operations": {
             "file_id": "file-Biv52s22tyd9QBxUXsdfWOiC",
             "date": 1677061232,
-            "pairs": 0,
             "base": "curie"
         },
         "get_parameters": {
             "file_id": "file-Biv52s22tyd9QBxUXsdfWOiC",
             "date": 1677061232,
-            "pairs": 0,
             "base": "davinci"
         },
         "get_body": {
@@ -50,7 +48,6 @@
         "get_next_substep_context": {
             "file_id": "file-Bo8DcdZSXbfsGQ1DLIFURseW",
             "date": 1677061234,
-            "pairs": 0,
             "base": "davinci"
         }
     }
