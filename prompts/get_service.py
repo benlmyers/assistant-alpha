@@ -12,7 +12,7 @@ Service to use for this step:
 
 def example(**kwargs):
 
-    if 'pretrain' in kwargs and kwargs['pretrain'] == True:
+    if 'pretrain' not in kwargs or not kwargs['pretrain']:
         return f"""The following is a step for a Task you (the Assistant) could complete in a single API call.
 
 Available Services:

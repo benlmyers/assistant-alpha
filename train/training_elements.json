@@ -45,6 +45,11 @@
             "user_input": "Post a Tweet",
             "step": "Post the tweet (API)",
             "result": "twitter"
+        },
+        {
+            "user_input": "Post a tweet",
+            "step": "Post the tweet (API)",
+            "result": "twitter"
         }
     ],
     "get_operations": [
@@ -53,6 +58,12 @@
             "step": "Post the user's Tweet on Twitter (API)",
             "service": "twitter",
             "result": "POST /2/tweets (Post a Tweet)"
+        },
+        {
+            "user_input": "Post a tweet",
+            "step": "Post the tweet (API)",
+            "service": "twitter",
+            "result": "POST /2/tweets (Post a tweet)"
         }
     ],
     "get_parameters": [],
@@ -63,7 +74,15 @@
             "context_data": "hi world",
             "service": "twitter",
             "operation": "POST /2/tweets (Post a Tweet)",
-            "result": "{text\": \"hi world\"\n}"
+            "result": "{\"text\": \"hi world\"}"
+        },
+        {
+            "user_input": "Post a Tweet",
+            "step": "Post the user's Tweet on Twitter (API) - Post a Tweet",
+            "context_data": "Hello",
+            "service": "twitter",
+            "operation": "POST /2/tweets (Post a Tweet)",
+            "result": "{\"text\":\"Hello\"}"
         }
     ],
     "get_next_step_context": [
@@ -78,6 +97,12 @@
             "step": "Post the user's Tweet on Twitter (API)",
             "response": "{\"data\":{\"edit_history_tweet_ids\":[\"1620691656906539009\"],\"id\":\"1620691656906539009\",\"text\":\"hi world\"}}",
             "result": "Post tweeted with ID: 1620691656906539009 and text: \"hi world\""
+        },
+        {
+            "user_input": "Post a Tweet",
+            "step": "Post the user's Tweet on Twitter (API)",
+            "response": "{\"data\":{\"edit_history_tweet_ids\":[\"1630096101847220224\"],\"id\":\"1630096101847220224\",\"text\":\"Hello\"}}",
+            "result": "Post tweeted with ID: 1630096101847220224 and text: Hello"
         }
     ],
     "get_next_substep_context": []

@@ -9,7 +9,7 @@ Category:"""
 
 def example(**kwargs):
 
-    if 'pretrain' in kwargs and kwargs['pretrain'] == True:
+    if 'pretrain' not in kwargs or not kwargs['pretrain']:
         return f"""Get today's date
 Category: Time
 

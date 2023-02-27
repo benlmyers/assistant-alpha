@@ -16,7 +16,7 @@ Processing the response, the context to be sent to the next step is:
 
 def example(**kwargs):
 
-    if 'pretrain' in kwargs and kwargs['pretrain'] == True:
+    if 'pretrain' not in kwargs or not kwargs['pretrain']:
         return f"""The following is the current user input:
 User Input: "Post a summary this week's Google Calendar events on Twitter"
 

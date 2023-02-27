@@ -20,7 +20,7 @@ Processing the response, the context to be sent to the next substep is:
 
 def example(**kwargs):
 
-    if 'pretrain' in kwargs and kwargs['pretrain'] == True:
+    if 'pretrain' not in kwargs or not kwargs['pretrain']:
         return f"""The following is the current user input:
 User Input: "Send a DM to Lionel Messi"
 
