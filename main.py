@@ -1,4 +1,5 @@
 import openai
+import json
 
 import sec
 from step.ai_step import ai_step
@@ -9,27 +10,41 @@ from subdivision import subdivision
 openai.api_key = sec.OPENAI_API_KEY
 openai.organization = sec.OPENAI_ORGANIZATION_ID
 
-# 1. Should the Assistant collect training reinforcements from the user?
-COLLECT_TRAINING = True
-# 2. Should training run? That is, should the Training Elements be converted to training data?
-CONVERT_TRAINING = False
-# 3. Should fine tuning run? That is, should OpenAI's models be fine-tuned to our training data?
-RUN_FINE_TUNING = False
-
-if CONVERT_TRAINING:
-    from train.generate_training_data import generate_training_data
-    generate_training_data()
-    print('')
-
-if RUN_FINE_TUNING:
-    from train.fine_tune import fine_tune
-    fine_tune()
-    print('')
-
 # An array to keep a running total of the cost of the Assistant's actions.
 cost = []
 
+settings = json.loads(open('settings.json', 'r').read())
+
 user_input = input('Enter a command: ')
+
+if user_input.lower() == 'm':
+    while True:
+        print('')
+        print('=======')
+        print('[T] Training Mode (' +
+              ('on' if settings['training_mode'] else 'off') + ')')
+        print('[C] Create Training Data')
+        print('[F] Fine-Tune Models')
+        print('[Enter] Exit Menu')
+        print('=======')
+        user_input = input('Selection: ')
+        if user_input == '':
+            user_input = input('Enter a command: ')
+            break
+        if user_input.lower() == 't':
+            settings['training_mode'] = not settings['training_mode']
+            with open('settings.json', 'w') as out:
+                out.write(json.dumps(settings, indent=4))
+                out.close()
+            print('')
+        if user_input.lower() == 'c':
+            from train.generate_training_data import generate_training_data
+            generate_training_data()
+            print('')
+        if user_input.lower() == 'f':
+            from train.fine_tune import fine_tune
+            fine_tune()
+            print('')
 
 print('[...]')
 steps = subdivision(user_input, cost)

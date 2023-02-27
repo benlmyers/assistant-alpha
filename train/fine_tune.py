@@ -97,8 +97,12 @@ def tune_from_pt(process, data, training):
     print('> Refining ' + process + ' with pre-tuned model ' +
           pt + ' (base source: ' + base + ')...')
 
-    result = openai.FineTune.create(training_file=file_id,
-                                    model=pt, suffix=process)
+    try:
+        result = openai.FineTune.create(training_file=file_id,
+                                        model=pt, suffix=process)
+    except openai.InvalidRequestError as e:
+        print('[!] Error refining ' + process + ': ' + str(e))
+        return
 
     print('> Fine-tuning ' + process + ' completed.')
 
